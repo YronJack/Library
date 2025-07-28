@@ -29,26 +29,12 @@ public class Book {
         return this.quantity;
     }
 
-    public void setIsbn(String isbn){
-        this.isbn = isbn;
+    public void setIsbn(String isbn){ this.isbn = isbn; }
+    public void setTitle(String title){ this.title = title; }
+    public void setCategory(String category){ this.category = category; }
+    public void setQuantity(int quantity){ this.quantity = quantity; }
 
-    }
-    public void setTitle(String title){
-        this.title = title;
-
-    }
-    public void setCategory(String category){
-        this.category = category;
-
-    }
-     public void setQuantity(int quantity){
-        this.quantity = quantity;
-
-     }
-
-     public String getInfo(Book book){
-        return book.toString();
-     }
+     public String getInfo(Book book){ return book.toString(); }
 
     @Override
     public String toString() {

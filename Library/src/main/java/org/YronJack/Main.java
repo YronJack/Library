@@ -6,6 +6,5 @@ public class Main {
 
         System.out.printf("Progama ya guay");
 
-
     }
 }
