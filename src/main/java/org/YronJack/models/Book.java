@@ -16,7 +16,9 @@ public class Book {
 
 // Getters & Setters
 
-    public String getIsbn() { return this.isbn; }
+    public String getIsbn() {
+        return this.isbn;
+    }
     public String getTitle() { return this.title; }
     public String getCategory() { return this.category; }
     public int getQuantity() { return this.quantity; }
