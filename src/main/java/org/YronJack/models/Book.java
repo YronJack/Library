@@ -6,6 +6,10 @@ public class Book {
     private String category;
     private int quantity;
 
+    // constructor
+
+    public Book(){};
+
     public Book(String isbn, String title, String category, int quantity ) {
         this.isbn = isbn;
         this.title = title;
@@ -13,7 +17,7 @@ public class Book {
         this.quantity = quantity;
     }
 
-// Getters & Setters
+    // Getters & Setters
 
     public String getIsbn() { return this.isbn; }
     public String getTitle() { return this.title; }
@@ -25,7 +29,7 @@ public class Book {
     public void setCategory(String category){ this.category = category; }
     public void setQuantity(int quantity){ this.quantity = quantity; }
 
-// Methods
+    // Methods
 
      public String getInfo(Book book){ return book.toString(); }
 
