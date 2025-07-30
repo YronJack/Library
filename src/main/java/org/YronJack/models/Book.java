@@ -6,7 +6,6 @@ public class Book {
     private String category;
     private int quantity;
 
-
     public void Book (String isbn, String title, String category, int quantity ) {
         this.isbn = isbn;
         this.title = title;
@@ -26,6 +25,8 @@ public class Book {
     public void setCategory(String category){ this.category = category; }
     public void setQuantity(int quantity){ this.quantity = quantity; }
 
+// Methods
+
      public String getInfo(Book book){ return book.toString(); }
 
     @Override
@@ -38,4 +39,3 @@ public class Book {
                 '}';
     }
 }
-
