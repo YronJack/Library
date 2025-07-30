@@ -15,8 +15,8 @@ public class MainMenu {
 
         while (true) {
             System.out.println("\n         Main Menu     ");
-            System.out.println("1. Create (Add a book)");
-            System.out.println("2. Search (by title,by author, by category...)");
+            System.out.println("1. Create (add a book)");
+            System.out.println("2. Search (by title, by author, by category...)");
             System.out.println("3. Listings");
             System.out.println("4. Issues");
             System.out.println("5. Exit");
