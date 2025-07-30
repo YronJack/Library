@@ -1,0 +1,1 @@
+hacer clases que gestion el guardar los datos con buffer reader copiar de store character del proyecto RPG
