@@ -4,7 +4,7 @@ public class Book {
     private String isbn;
     private String title;
     private String category;
-    private int quantity; // test
+    private int quantity;
 
 
     public void Book (String isbn, String title, String category, int quantity ) {
