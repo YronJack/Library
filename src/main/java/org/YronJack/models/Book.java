@@ -6,7 +6,7 @@ public class Book {
     private String category;
     private int quantity;
 
-    public void Book (String isbn, String title, String category, int quantity ) {
+    public Book(String isbn, String title, String category, int quantity ) {
         this.isbn = isbn;
         this.title = title;
         this.category = category;
