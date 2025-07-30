@@ -36,7 +36,7 @@ public class MainMenu {
                         ListMenu.listMenu(scanner, patata);
                         return;
                     case 4:
-                        IssueMenu.listMenu(scanner, patata);
+                        IssueMenu.issueMenu(scanner, patata);
                         return;
                     default:
                         System.out.println("❗ Opción no válida. Intenta de nuevo.");
