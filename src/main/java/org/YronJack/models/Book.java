@@ -20,6 +20,7 @@ public class Book {
         this.quantity = quantity;
         this.author = new Author(name);
         this.author.addBookToList(this);
+        Hub.booksList.add(this);
     }
 
     // Getters & Setters
