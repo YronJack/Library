@@ -1,6 +1,5 @@
 package org.YronJack;
 
-
 import org.YronJack.menus.MainMenu;
 import org.YronJack.models.Hub;
 

@@ -1,5 +1,6 @@
 package org.YronJack.utils;
 
+import org.YronJack.models.Author;
 import org.YronJack.models.Book;
 import org.YronJack.models.Category;
 
@@ -59,6 +60,9 @@ public class CreateBookAction {
             }
         }
 
+        System.out.print("Author name: ");
+        String name = scanner.nextLine();
+
         int quantity = 0;
         while (true) {
             try {
@@ -71,8 +75,7 @@ public class CreateBookAction {
             }
         }
 
-        Book booklet = new Book(isbn, title, category.name(), quantity);
-        System.out.println("\n✅ Book created: " + booklet.getInfo(booklet) + "\n");
+        Book booklet = new Book(isbn, title, category.name(), quantity, name);
+        System.out.println("\n✅ Book created: " + booklet.getInfo() + "\n");
     }
-
 }
