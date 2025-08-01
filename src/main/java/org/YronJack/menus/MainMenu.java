@@ -1,19 +1,20 @@
 package org.YronJack.menus;
 
-import org.YronJack.models.Book;
 import org.YronJack.models.Hub;
 
 import java.util.Scanner;
 
+import static org.YronJack.utils.CreateBookAction.createBook;
+
 public class MainMenu {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void launch(Hub patata){
+    public static void launch(Hub patata) {
         System.out.println("          IronLibrary ");
 
-        int option;
+        int option = -1;
 
-        while (true) {
+        do {
             System.out.println("\n         Main Menu     ");
             System.out.println("1. Create (add a book!)");
             System.out.println("2. Search (by title, by author, by category...)");
@@ -21,45 +22,30 @@ public class MainMenu {
             System.out.println("4. Issues");
             System.out.println("5. Exit");
 
-            System.out.print("Select an option: ");
-            try {
-                option = Integer.parseInt(scanner.nextLine());
+            boolean validInput = false;
 
-                switch (option) {
-                    case 1:
-                        createBook();
-                        break;
-                    case 2:
-                        SearchMenu.searchMenu(scanner, patata);
-                        break;
-                    case 3:
-                        ListMenu.listMenu(scanner, patata);
-                        return;
-                    case 4:
-                        IssueMenu.issueMenu(scanner, patata);
-                        return;
-                    default:
-                        System.out.println("❗ Opción no válida. Intenta de nuevo.");
+            while (!validInput) {
+                System.out.print("Select an option: ");
+                try {
+                    option = Integer.parseInt(scanner.nextLine());
+                    if (option >= 1 && option <= 5) {
+                        validInput = true;
+                    } else {
+                        System.out.println("❗ Option invalid. Insert a valid option,try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("❗ Insert a valid number.");
                 }
-            } catch (NumberFormatException e){
-                System.out.println("❗ Debes introducir un número válido.");
-            } catch (Exception e) {
-                System.out.println("❗ Ocurrió un error inesperado: " + e.getMessage());
             }
-        }
-    }
 
-    public static void createBook() {
+            switch (option) {
+                case 1 -> createBook(scanner);
+                case 2 -> SearchMenu.searchMenu(scanner, patata);
+                case 3 -> ListMenu.listMenu(scanner, patata);
+                case 4 -> IssueMenu.issueMenu(scanner, patata);
+                case 5 -> System.out.println("👋 Bye,see you later gator...");
+            }
 
-        System.out.print("ISBN: ");
-        String isbn = scanner.nextLine();
-        System.out.print("Title: ");
-        String title = scanner.nextLine();
-        System.out.print("Category: "); //que sea un ENUM mejor
-        String category = scanner.nextLine();
-        System.out.print("Quantity: ");
-        int quantity = scanner.nextInt();
-
-        Book booklet = new Book(isbn, title, category, quantity);
+        } while (option != 5);
     }
 }
