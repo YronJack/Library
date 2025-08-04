@@ -1,6 +1,7 @@
 package org.YronJack.menus;
 
 import org.YronJack.models.Hub;
+import org.YronJack.store.BookStore;
 
 import java.util.Scanner;
 
@@ -8,6 +9,8 @@ import static org.YronJack.utils.CreateBookAction.createBook;
 
 public class MainMenu {
     private static Scanner scanner = new Scanner(System.in);
+    private static BookStore store = new BookStore();
+
 
     public static void launch(Hub patata) {
         System.out.println("          IronLibrary ");
@@ -20,7 +23,8 @@ public class MainMenu {
             System.out.println("2. Search (by title, by author, by category...)");
             System.out.println("3. Listings");
             System.out.println("4. Issues");
-            System.out.println("5. Exit");
+            System.out.println("5. Delete CSV file");
+            System.out.println("6. Exit");
 
             boolean validInput = false;
 
@@ -43,9 +47,10 @@ public class MainMenu {
                 case 2 -> SearchMenu.searchMenu(scanner, patata);
                 case 3 -> ListMenu.listMenu(scanner, patata);
                 case 4 -> IssueMenu.issueMenu(scanner, patata);
-                case 5 -> System.out.println("👋 Bye,see you later gator...");
+                case 5 -> store.deleteCSVFile();
+                case 6 -> System.out.println("👋 Bye,see you later gator...");
             }
 
-        } while (option != 5);
+        } while (option != 6);
     }
 }
