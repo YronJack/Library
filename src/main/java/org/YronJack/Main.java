@@ -11,12 +11,10 @@ public class Main {
 
         Hub patata = new Hub();
 
-        // Create BookStore instance
         BookStore bookStore = new BookStore();
         StudentStore studentStore = new StudentStore();
         IssueStore issueStore = new IssueStore();
 
-        // Load books from CSV into Hub.booksList
         patata.booksList = bookStore.loadBooks();
         patata.studentsList = studentStore.loadStudents();
         patata.issuesList = issueStore.loadIssues(patata);
@@ -28,16 +26,10 @@ public class Main {
 }
 
 /*
-2
+
 9783161484100
 9781861972712
 9780131101630
 9791234567896
-
-creo que por aqui tb se puede hablar
-
-tienes el micro cerraºdo
-
-
 
 */
