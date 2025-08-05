@@ -1,15 +1,14 @@
 package org.YronJack.menus;
 
+import org.YronJack.models.BookStore;
 import org.YronJack.models.Hub;
-import org.YronJack.store.*;
-
 
 
 import java.util.*;
 
 public class StoreMenu {
 
-    public static void storeMenu(Scanner scanner, Hub patata) {
+    public static void storeMenu(Scanner scanner, Hub patata, BookStore store) {
         System.out.println("          IronLibrary ");
 
         int option = -1;
@@ -40,7 +39,7 @@ public class StoreMenu {
             switch (option) {
                 case 1 -> {
                     BookStore.loadBooks();
-                    patata.booksList = bookStore.loadBooks(); //?????????
+                    //patata.booksList = BookStore.loadBooks(); //?????????
                     break;
                 }
 

@@ -2,7 +2,7 @@ package org.YronJack;
 
 import org.YronJack.menus.MainMenu;
 import org.YronJack.models.Hub;
-import org.YronJack.store.BookStore;
+import org.YronJack.models.BookStore;
 
 public class Main {
     public static void main(String[] args) {

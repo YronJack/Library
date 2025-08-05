@@ -1,14 +1,14 @@
 package org.YronJack.menus;
 
 import org.YronJack.models.Hub;
-import org.YronJack.store.BookStore;
-import org.YronJack.utils.CreateBookAction;
+import org.YronJack.models.BookStore;
+import org.YronJack.utils.*;
 import java.util.Scanner;
 
 
 public class MainMenu {
-    private static Scanner scanner = new Scanner(System.in);
-    private static BookStore store = new BookStore();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final BookStore store = new BookStore();
 
 
     public static void launch(Hub patata) {
@@ -22,7 +22,7 @@ public class MainMenu {
             System.out.println("2. Search (by title, by author, by category...)");
             System.out.println("3. Listings");
             System.out.println("4. Issues");
-            System.out.println("5. Delete CSV file"); //cambiar por menu import export
+            System.out.println("5. Import/Export Library");
             System.out.println("6. Exit");
 
             boolean validInput = false;

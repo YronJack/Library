@@ -2,7 +2,7 @@ package org.YronJack.utils;
 
 import org.YronJack.models.Book;
 import org.YronJack.models.Category;
-import org.YronJack.store.BookStore;
+import org.YronJack.models.BookStore;
 
 import java.util.Arrays;
 import java.util.Scanner;

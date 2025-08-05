@@ -1,6 +1,5 @@
 package org.YronJack.menus;
 
-import org.YronJack.models.Book;
 import org.YronJack.models.Hub;
 import org.YronJack.utils.SearchActions;
 
