@@ -17,7 +17,7 @@ public class Main {
 
         MainMenu mainMenu = new MainMenu();
 
-        mainMenu.launch(patata);
+        mainMenu.launch(patata,bookStore);
     }
 }
 

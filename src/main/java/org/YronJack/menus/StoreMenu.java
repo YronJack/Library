@@ -48,7 +48,9 @@ public class StoreMenu {
                     break;
                 }
                 case 3 -> {
+
                     storeBook(scanner);
+
                     break;
                 }
                 case 4 -> {

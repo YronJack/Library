@@ -8,10 +8,10 @@ import java.util.Scanner;
 
 public class MainMenu {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final BookStore store = new BookStore();
 
 
-    public static void launch(Hub patata) {
+
+    public static void launch(Hub patata,BookStore bookStore) {
         System.out.println("          IronLibrary ");
 
         int option = -1;
@@ -46,7 +46,7 @@ public class MainMenu {
                 case 2 -> SearchMenu.searchMenu(scanner, patata);
                 case 3 -> ListMenu.listMenu(scanner, patata);
                 case 4 -> IssueMenu.issueMenu(scanner, patata);
-                case 5 -> StoreMenu.storeMenu(scanner,patata,store);
+                case 5 -> StoreMenu.storeMenu(scanner,patata,bookStore);
                 case 6 -> System.out.println("👋 Bye,see you later gator...");
             }
 
