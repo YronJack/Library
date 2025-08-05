@@ -5,9 +5,11 @@ import org.YronJack.models.Issue;
 import org.YronJack.models.Student;
 import org.YronJack.models.Book;
 import org.YronJack.store.IssueStore;
+import org.YronJack.store.StudentStore;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class IssueActions {
@@ -56,6 +58,7 @@ public class IssueActions {
         } else {
             Student student = new Student(name);
             hub.getStudentsList().add(student);
+            StudentStore.saveStudent(student);
             System.out.println("✅ Created new student: " + student.getName() + " (USN: " + student.getUsn() + ")");
             return student;
         }
@@ -93,19 +96,14 @@ public class IssueActions {
     }
 
     private static Issue createNewIssue(Student student, Book book) {
-        Date issuedDate = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(issuedDate);
-        cal.add(Calendar.DAY_OF_MONTH, 7);
-        Date returnDate = cal.getTime();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate issueDate = LocalDate.now();
+        LocalDate returnDate = issueDate.plusDays(7);
         int newIssueId = IssueStore.getNextIssueId();
 
         return new Issue(
                 newIssueId,
-                simpleDateFormat.format(issuedDate),
-                simpleDateFormat.format(returnDate),
+                issueDate,
+                returnDate,
                 student,
                 book
         );
@@ -118,12 +116,6 @@ public class IssueActions {
         Optional<Book> bookFromList = hub.booksList.stream()
                 .filter(b -> b.getIsbn().replace("-", "").trim().equalsIgnoreCase(cleanIsbnInput))
                 .findFirst();
-
-//        if (bookFromList.isPresent()) {
-//           updateBookQuantity(bookFromList.get().getIsbn(), updatedQuantity);
-//        } else {
-//            System.out.println("⚠ Could not find book in CSV to update quantity.");
-//        }
     }
 }
 

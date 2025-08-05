@@ -15,12 +15,11 @@ public class ListMenu {
             System.out.println(" ├──────────────────────────────────────────────────┤");
             System.out.println(" │ 1. List all books                                │");
             System.out.println(" │ 2. List books by student                         │");
-            System.out.println(" │ 3. List books to be returned today               │");
-            System.out.println(" │ 4. List all issued books                         │");
-            System.out.println(" │ 5. List all books by a specific category         │");
-            System.out.println(" │ 6. List books that have never been issued        │");
-            System.out.println(" │ 7. List overdue students                         │");
-            System.out.println(" │ 8. Back to Main Menu                             │");
+            System.out.println(" │ 3. List all issued books                         │");
+            System.out.println(" │ 4. List all books by a specific category         │");
+            System.out.println(" │ 5. List books that have never been issued        │");
+            System.out.println(" │ 6. List all students                             │");
+            System.out.println(" │ 7. Back to Main Menu                             │");
             System.out.println(" └──────────────────────────────────────────────────┘");
 
             boolean validInput = false;
@@ -29,10 +28,10 @@ public class ListMenu {
                 System.out.print("Select an option: ");
                 try {
                     option = Integer.parseInt(scanner.nextLine());
-                    if (option >= 1 && option <= 8) {
+                    if (option >= 1 && option <= 7) {
                         validInput = true;
                     } else {
-                        System.out.println("❗ Invalid option. Please enter a number between 1 and 8.");
+                        System.out.println("❗ Invalid option. Please enter a number between 1 and 7.");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("❗ Invalid input. Please enter a number.");
@@ -47,24 +46,21 @@ public class ListMenu {
                     ListingActions.listBooksByUsn(scanner, patata);
                     break;
                 case 3:
-                    ListingActions.listBooksToReturnToday(patata);
-                    break;
-                case 4:
                     ListingActions.listAllIssuedBooks(patata);
                     break;
-                case 5:
+                case 4:
                     ListingActions.listBooksByCategory(scanner, patata);
                     break;
-                case 6:
+                case 5:
                     ListingActions.listBooksNeverIssued(patata);
                     break;
-                case 7:
-                    ListingActions.listOverdueStudents(patata);
+                case 6:
+                    ListingActions.listAllStudents(patata);
                     break;
-                case 8:
+                case 7:
                     System.out.println("👋 Returning to Main Menu.");
                     break;
             }
-        } while (option != 8);
+        } while (option != 7);
     }
 }

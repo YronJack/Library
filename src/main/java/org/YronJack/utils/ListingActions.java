@@ -3,9 +3,8 @@ package org.YronJack.utils;
 import org.YronJack.models.Book;
 import org.YronJack.models.Hub;
 import org.YronJack.models.Issue;
+import org.YronJack.models.Student;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +13,6 @@ import java.util.stream.Collectors;
 public class ListingActions {
 
     public static void listAllBooks(Hub hub) {
-        // Same logic
         if (hub.booksList.isEmpty()) {
             System.out.println("No books available.");
             return;
@@ -41,7 +39,6 @@ public class ListingActions {
     }
 
     public static void listBooksByUsn(Scanner scanner, Hub hub) {
-        // Same logic
         System.out.print("Enter USN: ");
         String usn = scanner.nextLine().trim();
 
@@ -64,40 +61,6 @@ public class ListingActions {
 
         if (!found) {
             System.out.println("No books found for student with USN " + usn + ".");
-        }
-    }
-
-    public static void listBooksToReturnToday(Hub hub) {
-        // Same logic
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        boolean found = false;
-        System.out.println("\n╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.printf("║ %-40s | %-25s | %-35s ║\n",
-                "Book Title", "Student Name", "Return date");
-        System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════════════╣");
-
-        for (Issue issue : hub.issuesList) {
-            if (issue.getReturnDate() != null) {
-                try {
-                    LocalDate returnDate = LocalDate.parse(issue.getReturnDate(), formatter);
-                    if (returnDate.isEqual(today)) {
-                        System.out.printf("║ %-40s | %-25s | %-35s ║\n",
-                                issue.getIssueBook().getTitle(),
-                                issue.getIssueStudent().getName(),
-                                issue.getReturnDate());
-                        found = true;
-                    }
-                } catch (Exception e) {
-                    System.err.println("❗ Error parsing date: " + issue.getReturnDate());
-                }
-            }
-        }
-        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
-
-        if (!found) {
-            System.out.println("No books are due to be returned today.");
         }
     }
 
@@ -183,37 +146,30 @@ public class ListingActions {
         System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
-    public static void listOverdueStudents(Hub hub) {
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        boolean found = false;
+    public static void listAllStudents(Hub hub) {
+        List<Student> validStudents = hub.studentsList.stream()
+                .filter(s -> s.getName() != null && !s.getName().equalsIgnoreCase("Unknown"))
+                .collect(Collectors.toList());
 
-        System.out.println("\n╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.printf("║ %-25s | %-40s | %-20s | %-15s ║\n",
-                "Student Name", "Book Title", "Book ISBN", "Overdue Date");
-        System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
-
-        for (Issue issue : hub.issuesList) {
-            if (issue.getReturnDate() != null) {
-                try {
-                    LocalDate returnDate = LocalDate.parse(issue.getReturnDate(), formatter);
-                    if (returnDate.isBefore(today)) {
-                        System.out.printf("║ %-25s | %-40s | %-20s | %-15s ║\n",
-                                issue.getIssueStudent().getName(),
-                                issue.getIssueBook().getTitle(),
-                                issue.getIssueBook().getIsbn(),
-                                issue.getReturnDate());
-                        found = true;
-                    }
-                } catch (Exception e) {
-                    System.err.println("❗ Error parsing date for issue: " + issue.getReturnDate());
-                }
-            }
+        if (validStudents.isEmpty()) {
+            System.out.println("No students registered.");
+            return;
         }
-        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
-        if (!found) {
-            System.out.println("No overdue books found.");
+        String top       = "╔═════════════════╦═════════════════════════╗";
+        String headerSep = "╠═════════════════╬═════════════════════════╣";
+        String bottom    = "╚═════════════════╩═════════════════════════╝";
+
+        System.out.println(top);
+        System.out.printf("║ %-15s ║ %-23s ║\n", "USN", "Student Name");
+        System.out.println(headerSep);
+
+        for (Student student : validStudents) {
+            System.out.printf("║ %-15s ║ %-23s ║\n",
+                    student.getUsn(),
+                    student.getName());
         }
+
+        System.out.println(bottom);
     }
 }

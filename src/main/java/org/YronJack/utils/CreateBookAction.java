@@ -95,7 +95,7 @@ public class CreateBookAction {
         }
 
         // ✅ Create and save the book
-        Book booklet = new Book(isbn, title, category.name(), quantity, name);
+        Book booklet = new Book(isbn, title, category.name(), quantity, name, true);
         store.saveBook(booklet);
 
         System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");

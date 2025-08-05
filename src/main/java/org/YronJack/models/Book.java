@@ -13,14 +13,15 @@ public class Book {
 
     public Book(){};
 
-    public Book(String isbn, String title, String category, int quantity, String name ) {
+    public Book(String isbn, String title, String category, int quantity, String name, Boolean firstTime ) {
         this.isbn = isbn;
         this.title = title;
         this.category = category;
         this.quantity = quantity;
         this.author = new Author(name);
         this.author.addBookToList(this);
-        Hub.booksList.add(this);
+        if(firstTime) { Hub.booksList.add(this);}
+
     }
 
     // Getters & Setters

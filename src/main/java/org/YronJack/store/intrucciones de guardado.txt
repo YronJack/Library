@@ -1,6 +1,0 @@
-hacer clases que gestion el guardar los datos con buffer reader copiar de store character del proyecto RPG
-
-1- cuando arranca carga to-do (auto)
-2- cuando sale del programa guarda to-do (auto)
-
-Valorar no automático y por elemento.

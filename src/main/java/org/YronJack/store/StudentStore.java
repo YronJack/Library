@@ -14,7 +14,7 @@ public class StudentStore {
         ensureFileExists();
     }
 
-    private void ensureFileExists() {
+    private static void ensureFileExists() {
         File file = new File(FILE_NAME);
         File parentDir = file.getParentFile();
 
@@ -53,7 +53,7 @@ public class StudentStore {
         return students;
     }
 
-    public void saveStudent(Student student) {
+    public static void saveStudent(Student student) {
         ensureFileExists();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             bw.write(String.format("%s,%s", student.getUsn(), student.getName()));

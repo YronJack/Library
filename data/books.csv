@@ -1,4 +1,5 @@
-isbn,title,category,author, quantity
-9781861972712,fer,SCIENCE,fer,1
-9783161484100,fer,SCIENCE,fre,1
-978-3-16-148410-0,The Notebook,OTHER,Joan Doe,5
+isbn,title,category,author,quantity
+9783161484100,a,OTHER,a,2
+9781861972712,b,SCIENCE,b,2
+9780131101630,c,FICTION,c,2
+9791234567896,a,OTHER,as,4
