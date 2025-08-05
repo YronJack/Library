@@ -8,15 +8,21 @@ import java.util.*;
 public class BookStore {
 
     private static final String FILE_NAME = "data/books.csv";
+    private static String fileName = FILE_NAME;  // variable mutable para el nombre de archivo
 
     public BookStore() {}
+
+    // Método para cambiar el archivo usado, útil para tests
+    public static void setFileNameForTests(String testFileName) {
+        fileName = testFileName;
+    }
 
     private static String normalizeIsbn(String isbn) {
         return isbn == null ? "" : isbn.replace("-", "").trim();
     }
 
     private static void ensureFileExists() {
-        File file = new File(FILE_NAME);
+        File file = new File(fileName);
         File parentDir = file.getParentFile();
 
         if (parentDir != null && !parentDir.exists()) {
@@ -36,11 +42,11 @@ public class BookStore {
         List<Book> books = new ArrayList<>();
         Set<String> seenIsbns = new HashSet<>();
 
-        File file = new File(FILE_NAME);
+        File file = new File(fileName);
         if (!file.exists()) return books;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = br.readLine();
+            String line = br.readLine(); // skip header
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length < 5) {
@@ -51,7 +57,7 @@ public class BookStore {
                     String isbn = parts[0].trim();
                     String isbnNorm = normalizeIsbn(isbn);
 
-                    if (seenIsbns.contains(isbnNorm)) continue; // Ya cargado
+                    if (seenIsbns.contains(isbnNorm)) continue;
                     seenIsbns.add(isbnNorm);
 
                     String title = parts[1].trim();
@@ -70,7 +76,7 @@ public class BookStore {
         return books;
     }
 
-    public boolean existsByISBN(String isbn) {
+    public static boolean existsByISBN(String isbn) {
         String isbnNorm = normalizeIsbn(isbn);
         return loadBooks().stream()
                 .anyMatch(book -> normalizeIsbn(book.getIsbn()).equalsIgnoreCase(isbnNorm));
@@ -78,11 +84,11 @@ public class BookStore {
 
     public static void saveBook(Book book) {
         ensureFileExists();
-        if (new BookStore().existsByISBN(book.getIsbn())) {
+        if (existsByISBN(book.getIsbn())) {
             System.out.println("⚠ Book with this ISBN already exists. Not saving.");
             return;
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
             bw.write(String.format("%s,%s,%s,%s,%d",
                     book.getIsbn(),
                     book.getTitle(),
@@ -106,7 +112,7 @@ public class BookStore {
             return;
         }
 
-        File file = new File(FILE_NAME);
+        File file = new File(fileName);
         if (!file.exists()) {
             System.out.println("⚠ CSV file does not exist.");
             return;

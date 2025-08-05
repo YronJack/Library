@@ -37,8 +37,8 @@ public class StoreMenu {
             }
 
             switch (option) {
-                case 1 -> BookStore.loadBooks();
-                case 2 -> BookStore.deleteCSVFile();
+                case 1 -> store.loadBooks();
+                case 2 -> store.deleteCSVFile();
                 case 3 -> storeBook(scanner);
                 case 4 -> System.out.println("👋 Returning to Main Menu...");
             }
