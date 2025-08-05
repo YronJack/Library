@@ -1,4 +1,4 @@
-package org.YronJack.models;
+package org.YronJack.enums;
 
 public enum Category {
     FICTION,

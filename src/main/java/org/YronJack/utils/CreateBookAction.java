@@ -1,7 +1,7 @@
 package org.YronJack.utils;
 
 import org.YronJack.models.Book;
-import org.YronJack.models.Category;
+import org.YronJack.enums.Category;
 import org.YronJack.store.BookStore;
 
 import java.util.Arrays;
