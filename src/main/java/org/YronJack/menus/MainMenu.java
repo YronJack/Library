@@ -31,7 +31,7 @@ public class MainMenu {
                 System.out.print("Select an option: ");
                 try {
                     option = Integer.parseInt(scanner.nextLine());
-                    if (option >= 1 && option <= 5) {
+                    if (option >= 1 && option <= 6) {
                         validInput = true;
                     } else {
                         System.out.println("❗ Option invalid. Insert a valid option,try again.");
