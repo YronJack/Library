@@ -1,7 +1,7 @@
 package org.YronJack.menus;
 
 import org.YronJack.models.Hub;
-import org.YronJack.models.BookStore;
+import org.YronJack.store.BookStore;
 import org.YronJack.utils.*;
 import java.util.Scanner;
 

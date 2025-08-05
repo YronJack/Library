@@ -1,4 +1,6 @@
-package org.YronJack.models;
+package org.YronJack.store;
+
+import org.YronJack.models.Book;
 
 import java.io.*;
 import java.util.ArrayList;

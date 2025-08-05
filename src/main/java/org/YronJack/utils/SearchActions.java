@@ -1,42 +1,116 @@
 package org.YronJack.utils;
 
 import org.YronJack.models.Book;
-import org.YronJack.models.Hub;
+import org.YronJack.store.BookStore;
 
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class SearchActions {
 
+    private static final BookStore bookStore = new BookStore();
 
+    public static void searchByTitle(String title, Object hub) {
+        List<Book> books = bookStore.loadBooks();
+        List<Book> results = books.stream()
+                .filter(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .collect(Collectors.toList());
 
-    public static Book searchByAuthor(String author, Hub patata) {
-       for(Book bookOnList : patata.booksList){
-           if(author.equals(bookOnList.getAuthor().getName())){
-               System.out.println(bookOnList.getInfo());
-               return bookOnList;
-           }
-       } return null;
+        showResults(results);
     }
 
-    public static Book searchByCategory(String category, Hub patata) {
-        for (Book bookOnList : patata.booksList) {
-            if (bookOnList.getCategory().equals(category)) {
-                System.out.println(bookOnList.getInfo());
-                return bookOnList;
-            }
-        }
-        return null;
+    public static void searchByAuthor(Scanner scanner, Object hub) {
+        System.out.print("Enter author name: ");
+        String authorName = scanner.nextLine();
+
+        List<Book> books = bookStore.loadBooks();
+        List<Book> results = books.stream()
+                .filter(book -> book.getAuthor() != null &&
+                        book.getAuthor().getName().toLowerCase().contains(authorName.toLowerCase()))
+                .collect(Collectors.toList());
+
+        showResults(results);
     }
 
+    public static void searchByCategory(Scanner scanner, Object hub) {
+        System.out.print("Enter category: ");
+        String category = scanner.nextLine();
 
+        List<Book> books = bookStore.loadBooks();
+        List<Book> results = books.stream()
+                .filter(book -> book.getCategory().toLowerCase().contains(category.toLowerCase()))
+                .collect(Collectors.toList());
 
-    public static  Book searchByTitle(String title, Hub patata) {
+        showResults(results);
+    }
 
-        for (Book bookOnList : patata.booksList) {
-            if (bookOnList.getTitle().equals(title)) {
-                System.out.println(bookOnList.getInfo());
-                return bookOnList;
-            }
+    private static void showResults(List<Book> results) {
+        if (results.isEmpty()) {
+            System.out.println("⚠ No books found.");
+            return;
         }
-        return null;
+
+        System.out.println("\n📚 Search Results:");
+
+        System.out.printf("%-15s | %-30s | %-20s | %-20s | %-8s%n",
+                "ISBN", "Title", "Category", "Author", "Quantity");
+        System.out.println("------------------------------------------------------------------------------------------------------");
+
+        // Filas de la tabla
+        for (Book book : results) {
+            System.out.printf("%-15s | %-30s | %-20s | %-20s | %-8d%n",
+                    book.getIsbn(),
+                    book.getTitle(),
+                    book.getCategory(),
+                    (book.getAuthor() != null ? book.getAuthor().getName() : "Unknown"),
+                    book.getQuantity()
+            );
+        }
     }
 }
+
+
+
+//package org.YronJack.utils;
+//
+//import org.YronJack.models.Book;
+//import org.YronJack.models.Hub;
+//
+//
+//public class SearchActions {
+//
+//
+//
+//    public static Book searchByAuthor(String author, Hub patata) {
+//       for(Book bookOnList : patata.booksList){
+//           if(author.equals(bookOnList.getAuthor().getName())){
+//               System.out.println(bookOnList.getInfo());
+//               return bookOnList;
+//           }
+//       } return null;
+//    }
+//
+//    public static Book searchByCategory(String category, Hub patata) {
+//        for (Book bookOnList : patata.booksList) {
+//            if (bookOnList.getCategory().equals(category)) {
+//                System.out.println(bookOnList.getInfo());
+//                return bookOnList;
+//            }
+//        }
+//        return null;
+//    }
+//
+//
+//
+//    public static  Book searchByTitle(String title, Hub patata) {
+//
+//        for (Book bookOnList : patata.booksList) {
+//            if (bookOnList.getTitle().equals(title)) {
+//                System.out.println(bookOnList.getInfo());
+//                return bookOnList;
+//            }
+//        }
+//        return null;
+//    }
+//}
