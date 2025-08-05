@@ -16,4 +16,14 @@ public class Hub {
        }
 
        public Hub() {}
+
+       public static List<Book> getBooksList() { return booksList; }
+       public List<Student> getStudentsList() { return studentsList; }
+       public List<Issue> getIssuesList() { return issuesList; }
+       public List<Author> getAuthorsList() { return authorsList; }
+
+       public static void setBooksList(List<Book> booksList) { Hub.booksList = booksList; }
+       public void setStudentsList(List<Student> studentsList) { this.studentsList = studentsList; }
+       public void setIssuesList(List<Issue> issuesList) { this.issuesList = issuesList; }
+       public void setAuthorsList(List<Author> authorsList) { this.authorsList = authorsList; }
 }

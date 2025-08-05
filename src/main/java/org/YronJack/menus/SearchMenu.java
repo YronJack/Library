@@ -46,8 +46,8 @@ public class SearchMenu {
 
                 case 2 -> {
                     System.out.println("Enter author name: ");
-                    String author = scanner.nextLine();
-                    SearchActions.searchByAuthor(author, patata);
+                    String authorName = scanner.nextLine();
+                    SearchActions.searchByAuthor(authorName, patata);
                     break;
                 }
                 case 3 -> {
