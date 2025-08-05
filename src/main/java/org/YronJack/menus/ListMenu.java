@@ -1,16 +1,9 @@
 package org.YronJack.menus;
 
-import org.YronJack.models.Book;
 import org.YronJack.models.Hub;
-import org.YronJack.models.Issue;
 import org.YronJack.utils.ListingActions;
 
 import java.util.Scanner;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ListMenu {
     public static void listMenu(Scanner scanner, Hub patata) {
