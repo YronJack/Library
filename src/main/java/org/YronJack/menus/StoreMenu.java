@@ -1,24 +1,24 @@
 package org.YronJack.menus;
 
-import org.YronJack.models.Book;
 import org.YronJack.models.Hub;
-import org.YronJack.utils.SearchActions;
-
-import java.util.Scanner;
+import org.YronJack.store.*;
 
 
-public class SearchMenu {
 
-    public static void searchMenu(Scanner scanner,Hub patata) {
+import java.util.*;
+
+public class StoreMenu {
+
+    public static void storeMenu(Scanner scanner, Hub patata) {
         System.out.println("          IronLibrary ");
 
         int option = -1;
 
         do {
-            System.out.println("\n         Search Menu     ");
-            System.out.println("1. Search Book by title");
-            System.out.println("2. Search Book by author");
-            System.out.println("3. Search Book by category");
+            System.out.println("\n         Store Menu     ");
+            System.out.println("1. Load Books");
+            System.out.println("2. delete CSV File");
+            System.out.println("3. a lo mejor hace falta");
             System.out.println("4. Back to Main Menu");
 
             boolean validInput = false;
@@ -39,22 +39,17 @@ public class SearchMenu {
 
             switch (option) {
                 case 1 -> {
-                    System.out.println("Enter title: ");
-                    String title = scanner.nextLine();
-                    SearchActions.searchByTitle(title, patata);
+                    BookStore.loadBooks();
+                    patata.booksList = bookStore.loadBooks(); //?????????
                     break;
                 }
 
                 case 2 -> {
-                    System.out.println("Enter author name: ");
-                    String author = scanner.nextLine();
-                    SearchActions.searchByAuthor(author, patata);
+                    BookStore.deleteCSVFile();;
                     break;
                 }
                 case 3 -> {
-                    System.out.println("Enter category: ");
-                    String category = scanner.nextLine();
-                    SearchActions.searchByCategory(category, patata);
+                    storeBook(scanner);
                     break;
                 }
                 case 4 -> {
@@ -64,4 +59,9 @@ public class SearchMenu {
             }
         } while (option != 5);
     }
+
+    public static void storeBook(Scanner scanner) {
+
+    }
 }
+

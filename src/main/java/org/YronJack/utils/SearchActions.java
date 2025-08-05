@@ -10,14 +10,23 @@ public class SearchActions {
 
 
 
-    public static void searchByAuthor(Scanner scanner, Hub patata) {
-        // find the list of books
-
-        // filter books by author
-        // return the filtered list of books
+    public static Book searchByAuthor(String author, Hub patata) {
+       for(Book bookOnList : patata.booksList){
+           if(author.equals(bookOnList.getAuthor().getName())){
+               System.out.println(bookOnList.getInfo());
+               return bookOnList;
+           }
+       } return null;
     }
 
-    public static void searchByCategory(Scanner scanner, Hub patata) {
+    public static Book searchByCategory(String category, Hub patata) {
+        for (Book bookOnList : patata.booksList) {
+            if (bookOnList.getCategory().equals(category)) {
+                System.out.println(bookOnList.getInfo());
+                return bookOnList;
+            }
+        }
+        return null;
     }
 
 

@@ -15,7 +15,7 @@ public class BookStore {
     }
 
     // ✅ If the file does not exist, create it with the CSV header
-    private void ensureFileExists() {
+    private static void ensureFileExists() {
         File file = new File(FILE_NAME);
         File parentDir = file.getParentFile();
 
@@ -32,7 +32,7 @@ public class BookStore {
         }
     }
 
-    public List<Book> loadBooks() {
+    public static List<Book> loadBooks() {
         List<Book> books = new ArrayList<>();
         File file = new File(FILE_NAME);
         if (!file.exists()) return books;
@@ -70,7 +70,7 @@ public class BookStore {
     }
 
     // ✅ Save a new book to the file
-    public void saveBook(Book book) {
+    public static void saveBook(Book book) {
         ensureFileExists();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             bw.write(String.format("%s,%s,%s,%s,%d",
@@ -87,7 +87,7 @@ public class BookStore {
     }
 
     // ✅ Delete the CSV file with confirmation
-    public void deleteCSVFile() {
+    public static void deleteCSVFile() {
         final String INDENT = "    ";
         final int BOX_WIDTH = 72;
 

@@ -2,10 +2,9 @@ package org.YronJack.menus;
 
 import org.YronJack.models.Hub;
 import org.YronJack.store.BookStore;
-
+import org.YronJack.utils.CreateBookAction;
 import java.util.Scanner;
 
-import static org.YronJack.utils.CreateBookAction.createBook;
 
 public class MainMenu {
     private static Scanner scanner = new Scanner(System.in);
@@ -23,7 +22,7 @@ public class MainMenu {
             System.out.println("2. Search (by title, by author, by category...)");
             System.out.println("3. Listings");
             System.out.println("4. Issues");
-            System.out.println("5. Delete CSV file");
+            System.out.println("5. Delete CSV file"); //cambiar por menu import export
             System.out.println("6. Exit");
 
             boolean validInput = false;
@@ -43,11 +42,11 @@ public class MainMenu {
             }
 
             switch (option) {
-                case 1 -> createBook(scanner);
+                case 1 -> CreateBookAction.createBook(scanner);
                 case 2 -> SearchMenu.searchMenu(scanner, patata);
                 case 3 -> ListMenu.listMenu(scanner, patata);
                 case 4 -> IssueMenu.issueMenu(scanner, patata);
-                case 5 -> store.deleteCSVFile();
+                case 5 -> StoreMenu.storeMenu(scanner,patata,store);
                 case 6 -> System.out.println("👋 Bye,see you later gator...");
             }
 
