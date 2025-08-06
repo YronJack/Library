@@ -1,56 +1,71 @@
-//package test;
-//import org.YronJack.*;
-//import org.YronJack.models.Book;
-//import org.YronJack.store.BookStore;
-//import org.junit.jupiter.api.*;
-//import java.io.*;
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//class BookStoreTest {
-//
-//    private static final String TEST_FILE = "data/test_books.csv";
-//
-//    @BeforeEach
-//    void setUp() throws IOException {
-//        // Crear archivo de prueba con encabezado
-//        File file = new File(TEST_FILE);
-//        file.getParentFile().mkdirs();
-//        try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
-//            writer.println("isbn,title,category,author,quantity");
-//            writer.println("12345,Test Book,Fiction,Author Name,3");
-//        }
-//        // Cambiar el nombre del archivo en BookStore usando reflexión
-//        var field = BookStore.class.getDeclaredField("FILE_NAME");
-//        field.setAccessible(true);
-//        field.set(null, TEST_FILE);
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//        new File(TEST_FILE).delete();
-//    }
-//
-//    @Test
-//    void testLoadBooks() {
-//        List<Book> books = BookStore.loadBooks();
-//        assertEquals(1, books.size());
-//        assertEquals("12345", books.get(0).getIsbn());
-//    }
-//
-//    @Test
-//    void testExistsByISBN() {
-//        BookStore store = new BookStore();
-//        assertTrue(store.existsByISBN("12345"));
-//        assertFalse(store.existsByISBN("99999"));
-//    }
-//
-//    @Test
-//    void testSaveBook() {
-//        Book newBook = new Book("67890", "Nuevo", "Drama", 2, "Otro Autor", false);
-//        BookStore.saveBook(newBook);
-//        List<Book> books = BookStore.loadBooks();
-//        assertTrue(books.stream().anyMatch(b -> b.getIsbn().equals("67890")));
-//    }
-//}
+package org.YronJack.store;
+
+import org.YronJack.models.Book;
+import org.junit.jupiter.api.*;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class BookStoreTest {
+
+    private static final String TEST_FILE = "data/test_books.csv";
+
+    @BeforeEach
+    void setUp() throws Exception {
+        // Cambiar el archivo CSV a uno de test
+        BookStore.setFileNameForTests(TEST_FILE);
+
+        // Crear archivo test vacío con cabecera
+        File testFile = new File(TEST_FILE);
+        if (testFile.exists()) {
+            testFile.delete();
+        }
+        testFile.getParentFile().mkdirs();
+        testFile.createNewFile();
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(testFile))) {
+            bw.write("isbn,title,category,author,quantity");
+            bw.newLine();
+        }
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Borrar archivo test
+        File testFile = new File(TEST_FILE);
+        if (testFile.exists()) {
+            testFile.delete();
+        }
+    }
+
+    @Test
+    void testLoadBooksEmptyFile() {
+        List<Book> books = BookStore.loadBooks();
+        assertTrue(books.isEmpty(), "Books list should be empty if file is empty");
+    }
+
+    @Test
+    void testSaveAndLoadBook() {
+        Book book = new Book("123-456", "Test Book", "Fiction", 5, "Author Name", false);
+        BookStore.saveBook(book);
+
+        List<Book> books = BookStore.loadBooks();
+        assertFalse(books.isEmpty(), "Books list should not be empty after saving a book");
+        assertEquals("123-456", books.get(0).getIsbn());
+        assertEquals("Test Book", books.get(0).getTitle());
+        assertEquals(5, books.get(0).getQuantity());
+    }
+
+    @Test
+    void testExistsByISBN() {
+        Book book = new Book("789-1011", "Another Book", "Non-Fiction", 3, "Author", false);
+        BookStore.saveBook(book);
+
+        assertTrue(BookStore.existsByISBN("789-1011"));
+        assertFalse(BookStore.existsByISBN("000-0000"));
+    }
+}

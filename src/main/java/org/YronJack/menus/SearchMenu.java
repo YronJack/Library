@@ -1,24 +1,24 @@
 package org.YronJack.menus;
 
 import org.YronJack.models.Hub;
-import org.YronJack.utils.*;
+import org.YronJack.utils.SearchActions;
 
 import java.util.Scanner;
 
-
 public class SearchMenu {
 
-    public static void searchMenu(Scanner scanner,Hub patata) {
-        System.out.println("          IronLibrary ");
-
+    public static void searchMenu(Scanner scanner, Hub patata) {
         int option = -1;
 
         do {
-            System.out.println("\n         Search Menu     ");
-            System.out.println("1. Search Book by title");
-            System.out.println("2. Search Book by author");
-            System.out.println("3. Search Book by category");
-            System.out.println("4. Back to Main Menu");
+            System.out.println("\n ┌──────────────────────────────────────────────────┐");
+            System.out.println(" │                   Search Menu                    │");
+            System.out.println(" ├──────────────────────────────────────────────────┤");
+            System.out.println(" │ 1. Search Book by title                          │");
+            System.out.println(" │ 2. Search Book by author                         │");
+            System.out.println(" │ 3. Search Book by category                       │");
+            System.out.println(" │ 4. Back to Main Menu                             │");
+            System.out.println(" └──────────────────────────────────────────────────┘");
 
             boolean validInput = false;
 
@@ -26,41 +26,34 @@ public class SearchMenu {
                 System.out.print("Select an option: ");
                 try {
                     option = Integer.parseInt(scanner.nextLine());
-                    if (option >= 1 && option <= 5) {
+                    if (option >= 1 && option <= 4) {
                         validInput = true;
                     } else {
-                        System.out.println("❗ Option invalid. Insert a valid option,try again.");
+                        System.out.println("❗ Invalid option. Please enter a number between 1 and 4.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("❗ Insert a valid number.");
+                    System.out.println("❗ Invalid input. Please enter a number.");
                 }
             }
 
             switch (option) {
                 case 1 -> {
-                    System.out.println("Enter title: ");
+                    System.out.print("Enter title: ");
                     String title = scanner.nextLine();
                     SearchActions.searchByTitle(title, patata);
-                    break;
                 }
-
                 case 2 -> {
-                    System.out.println("Enter author name: ");
+                    System.out.print("Enter author name: ");
                     String authorName = scanner.nextLine();
                     SearchActions.searchByAuthor(authorName, patata);
-                    break;
                 }
                 case 3 -> {
-                    System.out.println("Enter category: ");
+                    System.out.print("Enter category: ");
                     String category = scanner.nextLine();
                     SearchActions.searchByCategory(category, patata);
-                    break;
                 }
-                case 4 -> {
-                    System.out.println("👋 back to Main Menu");
-                    return;
-                }
+                case 4 -> System.out.println("👋 Returning to Main Menu...");
             }
-        } while (option != 5);
+        } while (option != 4);
     }
 }

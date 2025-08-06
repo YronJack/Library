@@ -1,7 +1,7 @@
 package org.YronJack.utils;
 
 import org.YronJack.models.Book;
-import org.YronJack.models.Category;
+import org.YronJack.enums.Category;
 import org.YronJack.store.BookStore;
 
 import java.util.Arrays;
@@ -98,6 +98,7 @@ public class CreateBookAction {
         Book booklet = new Book(isbn, title, category.name(), quantity, name, true);
         store.saveBook(booklet);
 
+        System.out.println("\n");
         System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println("     ✅ Book created and saved successfully!");
         System.out.println("        " + booklet.getInfo());
