@@ -65,7 +65,7 @@ public class ListingsActionsTest {
         i3.setIssueBook(b3);
         i3.setIssueStudent(s3);
         i3.setIssueDate(LocalDate.now());
-        i3.setReturnDate(LocalDate.now());
+        i3.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i4 = new Issue();
         i4.setIssueBook(b1);
@@ -217,6 +217,38 @@ public class ListingsActionsTest {
         ListingActions.listAllStudents(hub);
         String output = outContent.toString();
         assertFalse(output.contains("Unknown"));
+    }
+
+    @Test
+    void listBooksReturnToday_showsBooksToReturnToday() {
+
+        Book book = new Book("1234567890123", "Libro Hoy", "PROGRAMMING", 1, "Autor", true);
+        Student student = new Student("Estudiante");
+        Issue issue = new Issue(book, student, LocalDate.now().minusDays(7), LocalDate.now());
+        hub.booksList.add(book);
+        hub.studentsList.add(student);
+        hub.issuesList.add(issue);
+
+        ListingActions.listBooksReturnToday(hub);
+
+        String output = outContent.toString();
+        assertTrue(output.contains("Libro Hoy"));
+        assertTrue(output.contains("Estudiante"));
+        assertTrue(output.contains(LocalDate.now().toString()));
+    }
+
+    @Test
+    void listBooksReturnToday_showsNoBooksMessage() {
+        Book book = new Book("1234567890123", "Libro Hoy", "PROGRAMMING", 1, "Autor", true);
+        Student student = new Student("Estudiante");
+        Issue issue = new Issue(book, student, LocalDate.now(), LocalDate.now().plusDays(7));
+        hub.booksList.add(book);
+        hub.studentsList.add(student);
+        hub.issuesList.add(issue);
+
+        ListingActions.listBooksReturnToday(hub);
+        String output = outContent.toString();
+        assertTrue(output.contains("No books to return today."));
     }
 }
 //package test;

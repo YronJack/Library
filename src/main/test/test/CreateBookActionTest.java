@@ -15,67 +15,79 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CreateBookActionTest {
-    private Hub hub = new Hub();
 
-    List<Book> emptyBookList = new ArrayList<>();
-    private BookStore bookStore;
-    private final PrintStream originalOut = System.out;
-    private ByteArrayOutputStream outContent;
+        private Hub hub = new Hub();
+        private File testFile; // <-- Añade esta línea
+        List<Book> emptyBookList = new ArrayList<>();
+        private BookStore bookStore;
+        private final PrintStream originalOut = System.out;
+        private ByteArrayOutputStream outContent;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        // Limpiar el BookStore antes de cada test
-        hub.setBooksList(emptyBookList);
+        testFile = File.createTempFile("books_test_", ".csv");
+        BookStore.setFileNameForTests(testFile.getAbsolutePath());
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(testFile))) {
+            writer.println("isbn,title,category,author,quantity");
+        }
+
+        Hub.booksList.clear();
+        hub.setBooksList(Hub.booksList);
     }
 
     @AfterEach
     void tearDown() {
         System.setOut(originalOut);
-        hub.setBooksList(emptyBookList);
+        hub.setBooksList(new ArrayList<>());
+        if (testFile != null && testFile.exists()) {
+            testFile.delete();
+        }
     }
 
     @Test
     void createBookWithValidDataCreatesBookSuccessfully() {
-        String input = "9783161484100\nLibro de Prueba\nPROGRAMMING\nAutor Prueba\n5\n";
-        Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
+
+        String input = "9783161484100\nLibro de Prueba\nPROGRAMMING\nAutor Prueba\n5\n\n\n\n\n\n";
+        Scanner mockScanner = new Scanner(input);
+        CreateBookAction.createBook(mockScanner,hub);
         String output = outContent.toString();
         assertTrue(output.contains("✅ Book created and saved successfully!"));
         assertTrue(output.contains("9783161484100"));
         assertTrue(output.contains("Libro de Prueba"));
         assertTrue(output.contains("Autor Prueba"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+        assertTrue(Hub.booksList.stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
     }
 
     @Test
     void createBookWithInvalidISBNShowsErrorAndAsksAgain() {
-        String input = "123\n9783161484100\nLibro\nPROGRAMMING\nAutor\n1\n";
+        String input = "123\n9783161484100\nLibro\nPROGRAMMING\nAutor\n1\n\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner,hub);
         String output = outContent.toString();
         assertTrue(output.contains("❌ ISBN must have exactly 13 digits."));
         assertTrue(output.contains("✅ Book created and saved successfully!"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+        assertTrue(Hub.booksList.stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
     }
 
     @Test
     void createBookWithDuplicateISBNShowsErrorAndAsksAgain() {
         // Pre-cargar un libro con el ISBN
-        BookStore.saveBook(new Book("9783161484100", "Existente", "PROGRAMMING", 1, "Autor", true));
-        String input = "9783161484100\n9783161484101\nLibro\nPROGRAMMING\nAutor\n2\n";
+        hub.getBooksList().add(new Book("9783161484100", "Existente", "PROGRAMMING", 1, "Autor", true));
+        String input = "9783161484100\n9783161484101\nLibro\nPROGRAMMING\nAutor\n2\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
+        CreateBookAction.createBook(scanner, hub);
         String output = outContent.toString();
         assertTrue(output.contains("❌ This ISBN is already registered in the database"));
         assertTrue(output.contains("9783161484101"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+        assertTrue(Hub.booksList.stream().anyMatch(book -> book.getIsbn().equals("9783161484101")));
     }
 
     @Test
     void createBookWithInvalidCategoryShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nINVALID\nPROGRAMMING\nAutor\n1\n";
+        String input = "9783161484100\nLibro\nINVALID\nPROGRAMMING\nAutor\n1\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner,hub);
         String output = outContent.toString();
@@ -85,7 +97,7 @@ class CreateBookActionTest {
 
     @Test
     void createBookWithEmptyAuthorNameShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nPROGRAMMING\n\nAutor\n1\n";
+        String input = "9783161484100\nLibro\nPROGRAMMING\n\nAutor\n1\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner,hub);
         String output = outContent.toString();
@@ -96,12 +108,12 @@ class CreateBookActionTest {
 
     @Test
     void createBookWithInvalidQuantityShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nPROGRAMMING\nAutor\n-1\nabc\n3\n";
+        String input = "9783161484100\nLibro\nPROGRAMMING\nAutor\n-1\nabc\n3\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner,hub);
         String output = outContent.toString();
         assertTrue(output.contains("❌ Invalid quantity, positive integer needed."));
         assertTrue(output.contains("✅ Book created and saved successfully!"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+        assertTrue(Hub.booksList.stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
     }
 }

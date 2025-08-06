@@ -5,6 +5,7 @@ import org.YronJack.models.Hub;
 import org.YronJack.models.Issue;
 import org.YronJack.models.Student;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -193,9 +194,9 @@ public class ListingActions {
             return;
         }
 
-        String top       = "╔═════════════════╦═════════════════════════╗";
+        String top = "╔═════════════════╦═════════════════════════╗";
         String headerSep = "╠═════════════════╬═════════════════════════╣";
-        String bottom    = "╚═════════════════╩═════════════════════════╝";
+        String bottom = "╚═════════════════╩═════════════════════════╝";
 
         System.out.println(top);
         System.out.printf("║ %-15s ║ %-23s ║\n", "USN", "Student Name");
@@ -208,5 +209,39 @@ public class ListingActions {
         }
 
         System.out.println(bottom);
+
     }
+
+        public static void listBooksReturnToday (Hub hub) {
+            LocalDate now = LocalDate.now();
+                List<Issue> returnToday = hub.issuesList.stream()
+                        .filter(s -> s.getReturnDate().equals(now))
+                        .collect(Collectors.toList());
+
+                if (returnToday.isEmpty()) {
+                    System.out.println("No books to return today.");
+                    return;
+                }
+            String top       = "╔════════════════════╦════════════════════════════════╦═════════════════════════════╦════════════════╦════════════════╗";
+            String headerSep = "╠════════════════════╬════════════════════════════════╬═════════════════════════════╬════════════════╬════════════════╣";
+            String bottom    = "╚════════════════════╩════════════════════════════════╩═════════════════════════════╩════════════════╩════════════════╝";
+
+            System.out.println();
+            System.out.println(top);
+            System.out.printf("║ %-18s ║ %-30s ║ %-27s ║ %-14s ║ %-14s ║\n",
+                    "Book ISBN", "Book Title", "Student Name", "Issue Date", "Return Date");
+            System.out.println(headerSep);
+
+            for (Issue issue : returnToday) {
+                System.out.printf("║ %-18s ║ %-30s ║ %-27s ║ %-14s ║ %-14s ║\n",
+                        issue.getIssueBook().getIsbn(),
+                        issue.getIssueBook().getTitle(),
+                        issue.getIssueStudent().getName(),
+                        issue.getIssueDate(),
+                        issue.getReturnDate());
+            }
+
+            System.out.println(bottom);
+        }
+
 }
