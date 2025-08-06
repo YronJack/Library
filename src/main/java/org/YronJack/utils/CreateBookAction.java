@@ -2,6 +2,7 @@ package org.YronJack.utils;
 
 import org.YronJack.models.Book;
 import org.YronJack.enums.Category;
+import org.YronJack.models.Hub;
 import org.YronJack.store.BookStore;
 
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class CreateBookAction {
         }
     }
 
-    public static void createBook(Scanner scanner) {
+    public static void createBook(Scanner scanner, Hub patata) {
         BookStore store = new BookStore();
 
         System.out.println("\n╔════════════════════════════════════════════════════╗");

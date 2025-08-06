@@ -45,7 +45,7 @@ public class MainMenu {
             }
 
             switch (option) {
-                case 1 -> CreateBookAction.createBook(scanner);
+                case 1 -> CreateBookAction.createBook(scanner,patata);
                 case 2 -> SearchMenu.searchMenu(scanner, patata);
                 case 3 -> ListMenu.listMenu(scanner, patata);
                 case 4 -> IssueMenu.issueMenu(scanner, patata);
