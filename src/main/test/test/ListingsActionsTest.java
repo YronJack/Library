@@ -219,3 +219,81 @@ public class ListingsActionsTest {
         assertFalse(output.contains("Unknown"));
     }
 }
+//package test;
+//
+//import org.YronJack.models.Book;
+//import org.YronJack.models.Author;
+//import org.YronJack.models.Hub;
+//import org.YronJack.utils.ListingActions;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//
+//import java.io.ByteArrayOutputStream;
+//import java.io.PrintStream;
+//import java.util.Arrays;
+//
+//import static org.junit.jupiter.api.Assertions.*;
+//
+//class ListingActionsTest {
+//
+//    private Hub hub;
+//    private ByteArrayOutputStream outContent;
+//
+//    @BeforeEach
+//    void setUp() {
+//        hub = new Hub();
+//        // List with 2 books
+//        Book b1 = new Book();
+//        b1.setIsbn("111-AAA");
+//        b1.setTitle("Java Basics");
+//        b1.setCategory("Programming");
+//        b1.setQuantity(5);
+//        b1.setAuthor(new Author("John Doe"));
+//
+//        Book b2 = new Book();
+//        b2.setIsbn("222-BBB");
+//        b2.setTitle("Python Advanced");
+//        b2.setCategory("Programming");
+//        b2.setQuantity(3);
+//        b2.setAuthor(new Author("Jane Smith"));
+//
+//        hub.getBooksList().addAll(Arrays.asList(b1, b2));
+//
+//        outContent = new ByteArrayOutputStream();
+//        System.setOut(new PrintStream(outContent));
+//    }
+//
+//    @Test
+//    void testListAllBooks_WithBooks() {
+//        ListingActions.listAllBooks(hub);
+//        String output = outContent.toString();
+//        assertTrue(output.contains("Java Basics"));
+//        assertTrue(output.contains("Python Advanced"));
+//    }
+//
+//    @Test
+//    void testListAllBooks_EmptyList() {
+//        hub.getBooksList().clear();
+//        ListingActions.listAllBooks(hub);
+//        String output = outContent.toString();
+//        assertTrue(output.contains("No books available."));
+//    }
+//
+//    @Test
+//    void testListBooksByCategory_Found() {
+//        ListingActions.listBooksByCategory(
+//                new java.util.Scanner("Programming\n"), hub);
+//        String output = outContent.toString();
+//        assertTrue(output.contains("Java Basics"));
+//        assertTrue(output.contains("Python Advanced"));
+//    }
+//
+//    @Test
+//    void testListBooksByCategory_NotFound() {
+//        ListingActions.listBooksByCategory(
+//                new java.util.Scanner("History\n"), hub);
+//        String output = outContent.toString();
+//        assertTrue(output.contains("No books found in category"));
+//    }
+//}
+
