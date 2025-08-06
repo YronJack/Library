@@ -17,6 +17,10 @@ public class Issue {
         this.issueBook = issueBook;
     }
 
+    public Issue() {
+
+    }
+
     // GETTERS AND SETTERS
 
     public Integer getIssueId() { return issueId; }

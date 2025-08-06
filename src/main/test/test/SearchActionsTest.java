@@ -1,4 +1,4 @@
-package java.test;
+package test;
 
 import org.YronJack.models.Author;
 import org.YronJack.models.Book;

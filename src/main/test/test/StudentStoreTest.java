@@ -1,6 +1,7 @@
-package org.YronJack.store;
+package test;
 
 import org.YronJack.models.Student;
+import org.YronJack.store.StudentStore;
 import org.junit.jupiter.api.*;
 
 import java.io.File;

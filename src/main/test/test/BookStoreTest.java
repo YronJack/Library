@@ -1,6 +1,7 @@
-package org.YronJack.store;
+package test;
 
 import org.YronJack.models.Book;
+import org.YronJack.store.BookStore;
 import org.junit.jupiter.api.*;
 
 import java.io.BufferedWriter;
