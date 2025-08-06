@@ -3,22 +3,22 @@ package org.YronJack.menus;
 import org.YronJack.store.BookStore;
 import org.YronJack.models.Hub;
 
-
-import java.util.*;
+import java.util.Scanner;
 
 public class StoreMenu {
 
     public static void storeMenu(Scanner scanner, Hub patata, BookStore store) {
-        System.out.println("          IronLibrary ");
-
         int option = -1;
 
         do {
-            System.out.println("\n         Store Menu     ");
-            System.out.println("1. Load Books");
-            System.out.println("2. delete CSV File");
-            System.out.println("3. a lo mejor hace falta");
-            System.out.println("4. Back to Main Menu");
+            System.out.println("\n ┌──────────────────────────────────────────────────┐");
+            System.out.println(" │                   Store Menu                     │");
+            System.out.println(" ├──────────────────────────────────────────────────┤");
+            System.out.println(" │ 1. Load Books                                    │");
+            System.out.println(" │ 2. Delete CSV File                               │");
+            System.out.println(" │ 3. Save Books to CSV                             │");
+            System.out.println(" │ 4. Back to Main Menu                             │");
+            System.out.println(" └──────────────────────────────────────────────────┘");
 
             boolean validInput = false;
 
@@ -26,43 +26,27 @@ public class StoreMenu {
                 System.out.print("Select an option: ");
                 try {
                     option = Integer.parseInt(scanner.nextLine());
-                    if (option >= 1 && option <= 5) {
+                    if (option >= 1 && option <= 4) {
                         validInput = true;
                     } else {
-                        System.out.println("❗ Option invalid. Insert a valid option,try again.");
+                        System.out.println("❗ Invalid option. Please enter a number between 1 and 4.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("❗ Insert a valid number.");
+                    System.out.println("❗ Invalid input. Please enter a number.");
                 }
             }
 
             switch (option) {
-                case 1 -> {
-                    BookStore.loadBooks();
-                    //patata.booksList = BookStore.loadBooks(); //?????????
-                    break;
-                }
-
-                case 2 -> {
-                    BookStore.deleteCSVFile();;
-                    break;
-                }
-                case 3 -> {
-
-                    storeBook(scanner);
-
-                    break;
-                }
-                case 4 -> {
-                    System.out.println("👋 back to Main Menu");
-                    return;
-                }
+                case 1 -> store.loadBooks();
+                case 2 -> store.deleteCSVFile();
+                case 3 -> storeBook(scanner);
+                case 4 -> System.out.println("👋 Returning to Main Menu...");
             }
-        } while (option != 5);
+        } while (option != 4);
     }
 
     public static void storeBook(Scanner scanner) {
-
+        // Aquí implementarías la lógica para guardar libros en el CSV
+        System.out.println("💾 Saving books to CSV... (feature pending)");
     }
 }
-

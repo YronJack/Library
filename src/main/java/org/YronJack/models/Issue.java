@@ -8,7 +8,6 @@ public class Issue {
     private LocalDate returnDate;
     private Student issueStudent;
     private Book issueBook;
-    int counter = 0;
 
     public Issue(Integer issueId, LocalDate issueDate, LocalDate returnDate, Student issueStudent, Book issueBook) {
         this.issueId = issueId;

@@ -12,7 +12,8 @@ import java.util.*;
 
 public class IssueStore {
 
-    private static final String ISSUES_CSV = "data/issues.csv";
+    private static final String DEFAULT_ISSUES_CSV = "data/issues.csv";
+    private static String issuesFile = DEFAULT_ISSUES_CSV;
     private static int lastIssueId = 0;
 
     private static String normalizeIsbn(String isbn) {
@@ -20,8 +21,12 @@ public class IssueStore {
     }
 
     static {
+        initialize();
+    }
+
+    private static void initialize() {
         try {
-            Path path = Paths.get(ISSUES_CSV);
+            Path path = Paths.get(issuesFile);
             if (Files.exists(path)) {
                 List<String> lines = Files.readAllLines(path);
                 if (lines.size() > 1) {
@@ -36,7 +41,7 @@ public class IssueStore {
                     lastIssueId = maxId;
                 }
             } else {
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(ISSUES_CSV))) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(issuesFile))) {
                     bw.write("issueId,usn,isbn,issueDate,returnDate");
                     bw.newLine();
                 }
@@ -46,8 +51,14 @@ public class IssueStore {
         }
     }
 
+    public static void setIssuesFileForTests(String testFile) {
+        issuesFile = testFile;
+        lastIssueId = 0;
+        initialize();
+    }
+
     public static void saveIssue(Issue issue) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ISSUES_CSV, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(issuesFile, true))) {
             String line = String.format("%d,%s,%s,%s,%s",
                     issue.getIssueId(),
                     issue.getIssueStudent().getUsn(),
@@ -70,11 +81,11 @@ public class IssueStore {
 
     public static List<Issue> loadIssues(Hub hub) {
         List<Issue> issues = new ArrayList<>();
-        File file = new File(ISSUES_CSV);
+        File file = new File(issuesFile);
         if (!file.exists()) return issues;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            br.readLine();
+            br.readLine(); // Skip header
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -96,12 +107,11 @@ public class IssueStore {
                                 return newStudent;
                             });
 
-
                     Book book = hub.getBooksList().stream()
                             .filter(b -> normalizeIsbn(b.getIsbn()).equalsIgnoreCase(normalizeIsbn(isbn)))
                             .findFirst()
                             .orElseGet(() -> {
-                                Book newBook = new Book(isbn, "Unknown", "Unknown", 0, "Unknown",false);
+                                Book newBook = new Book(isbn, "Unknown", "Unknown", 0, "Unknown", false);
                                 hub.getBooksList().add(newBook);
                                 return newBook;
                             });

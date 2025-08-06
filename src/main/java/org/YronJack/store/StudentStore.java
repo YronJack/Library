@@ -8,14 +8,20 @@ import java.util.List;
 
 public class StudentStore {
 
-    private static final String FILE_NAME = "data/students.csv";
+    private static final String DEFAULT_FILE_NAME = "data/students.csv";
+    private static String fileName = DEFAULT_FILE_NAME;
 
     public StudentStore() {
         ensureFileExists();
     }
 
+    public static void setFileNameForTests(String testFileName) {
+        fileName = testFileName;
+        ensureFileExists();
+    }
+
     private static void ensureFileExists() {
-        File file = new File(FILE_NAME);
+        File file = new File(fileName);
         File parentDir = file.getParentFile();
 
         if (parentDir != null && !parentDir.exists()) {
@@ -33,11 +39,11 @@ public class StudentStore {
 
     public List<Student> loadStudents() {
         List<Student> students = new ArrayList<>();
-        File file = new File(FILE_NAME);
+        File file = new File(fileName);
         if (!file.exists()) return students;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            br.readLine();
+            br.readLine(); // skip header
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -55,7 +61,7 @@ public class StudentStore {
 
     public static void saveStudent(Student student) {
         ensureFileExists();
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
             bw.write(String.format("%s,%s", student.getUsn(), student.getName()));
             bw.newLine();
         } catch (IOException e) {
@@ -63,4 +69,3 @@ public class StudentStore {
         }
     }
 }
-
