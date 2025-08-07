@@ -29,7 +29,7 @@ public class ListMenu {
                 System.out.print("Select an option: ");
                 try {
                     option = Integer.parseInt(scanner.nextLine());
-                    if (option >= 1 && option <= 7) {
+                    if (option >= 1 && option <= 8) {
                         validInput = true;
                     } else {
                         System.out.println("❗ Invalid option. Please enter a number between 1 and 7.");
