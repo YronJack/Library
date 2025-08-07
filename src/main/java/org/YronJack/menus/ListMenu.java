@@ -19,7 +19,8 @@ public class ListMenu {
             System.out.println(" │ 4. List all books by a specific category         │");
             System.out.println(" │ 5. List books that have never been issued        │");
             System.out.println(" │ 6. List all students                             │");
-            System.out.println(" │ 7. Back to Main Menu                             │");
+            System.out.println(" │ 7. List all books to return today                │");
+            System.out.println(" │ 8. Back to Main Menu                             │");
             System.out.println(" └──────────────────────────────────────────────────┘");
 
             boolean validInput = false;
@@ -58,9 +59,12 @@ public class ListMenu {
                     ListingActions.listAllStudents(patata);
                     break;
                 case 7:
+                    ListingActions.listBooksReturnToday(patata);
+                    break;
+                case 8:
                     System.out.println("👋 Returning to Main Menu.");
                     break;
             }
-        } while (option != 7);
+        } while (option != 8);
     }
 }

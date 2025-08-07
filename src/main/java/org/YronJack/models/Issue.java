@@ -21,6 +21,13 @@ public class Issue {
 
     }
 
+    public Issue(Book book, Student student, LocalDate now, LocalDate localDate) {
+        this.issueBook = book;
+        this.issueStudent = student;
+        this.issueDate = now;
+        this.returnDate = localDate;
+    }
+
     // GETTERS AND SETTERS
 
     public Integer getIssueId() { return issueId; }

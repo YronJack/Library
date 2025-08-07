@@ -233,4 +233,40 @@ public class ListingsActionsTest {
         String output = outContent.toString();
         assertFalse(output.contains("Unknown"));
     }
+
+
+
+    @Test
+    void listBooksReturnToday_showsBooksToReturnToday() {
+
+        Book book = new Book("1234567890123", "Libro Hoy", "other", 1, "Autor", true);
+        Student student = new Student("Estudiante");
+        Issue issue = new Issue(book, student, LocalDate.now().minusDays(7), LocalDate.now());
+        hub.booksList.add(book);
+        hub.studentsList.add(student);
+        hub.issuesList.add(issue);
+
+        ListingActions.listBooksReturnToday(hub);
+
+        String output = outContent.toString();
+        assertTrue(output.contains("Libro Hoy"));
+        assertTrue(output.contains("Estudiante"));
+        assertTrue(output.contains(LocalDate.now().toString()));
+    }
+
+
+    @Test
+    void listBooksReturnToday_showsNoBooksMessage() {
+        Book book = new Book("1234567890123", "Libro Hoy", "other", 1, "Autor", true);
+        Student student = new Student("Estudiante");
+        Issue issue = new Issue(book, student, LocalDate.now(), LocalDate.now().plusDays(7));
+        hub.booksList.add(book);
+        hub.studentsList.add(student);
+        hub.issuesList.add(issue);
+
+        ListingActions.listBooksReturnToday(hub);
+        String output = outContent.toString();
+        assertTrue(output.contains("No books to return today."));
+    }
 }
+
