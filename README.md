@@ -15,14 +15,13 @@ A console-based Java application to help schools and organizations manage books 
 ## Table of Contents
 
 - [Features](#features)
-- [Demo](#demo)
-- [Getting Started](#getting-started)
+
 - [Usage Examples](#usage-examples)
 - [Data Formats](#data-formats)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [Getting Started](#getting-started)
+
 
 ---
 ## Features
