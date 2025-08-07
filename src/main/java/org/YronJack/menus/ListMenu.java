@@ -63,7 +63,7 @@ public class ListMenu {
                     break;
                 case 8:
                     System.out.println("👋 Returning to Main Menu.");
-                    break;
+                    return;
             }
         } while (option != 8);
     }

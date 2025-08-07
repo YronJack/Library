@@ -46,7 +46,7 @@ public class StoreMenu {
     }
 
     public static void storeBook(Scanner scanner) {
-        // Aquí implementarías la lógica para guardar libros en el CSV
+
         System.out.println("💾 Saving books to CSV... (feature pending)");
     }
 }
