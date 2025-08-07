@@ -45,53 +45,59 @@ class SearchActionsTest {
 
         hub.booksList = Arrays.asList(b1, b2, b3);
 
-        // Capturamos salida de consola para validar impresión
+        // Redirects console output to ByteArrayOutputStream for assertion
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
     }
 
     @Test
     void testSearchByTitle_Found() {
+        // Should find a book by a keyword in the title
         SearchActions.searchByTitle("Java", hub);
         String output = outContent.toString();
-        assertTrue(output.contains("Java Basics"));
-        assertFalse(output.contains("Python Advanced"));
+        assertTrue(output.contains("Java Basics")); // Expected title found
+        assertFalse(output.contains("Python Advanced")); // Irrelevant title should not appear
     }
 
     @Test
     void testSearchByTitle_NotFound() {
+        // Should return warning when no book title matches
         SearchActions.searchByTitle("C#", hub);
         String output = outContent.toString();
-        assertTrue(output.contains("⚠ No books found."));
+        assertTrue(output.contains("⚠ No books found.")); // Appropriate warning message
     }
 
     @Test
     void testSearchByAuthor_Found() {
+        // Should find a book written by an author with matching name
         SearchActions.searchByAuthor("Jane", hub);
         String output = outContent.toString();
-        assertTrue(output.contains("Python Advanced"));
-        assertFalse(output.contains("Java Basics"));
+        assertTrue(output.contains("Python Advanced")); // Book by Jane Smith found
+        assertFalse(output.contains("Java Basics")); // Book by another author not included
     }
 
     @Test
     void testSearchByAuthor_NotFound() {
+        // Should return warning when no author matches
         SearchActions.searchByAuthor("Nonexistent", hub);
         String output = outContent.toString();
-        assertTrue(output.contains("⚠ No books found."));
+        assertTrue(output.contains("⚠ No books found.")); // Expected no match
     }
 
     @Test
     void testSearchByCategory_Found() {
+        // Should list books within the requested category
         SearchActions.searchByCategory("Cooking", hub);
         String output = outContent.toString();
-        assertTrue(output.contains("Cooking Guide"));
-        assertFalse(output.contains("Java Basics"));
+        assertTrue(output.contains("Cooking Guide")); // Book in Cooking category shown
+        assertFalse(output.contains("Java Basics")); // Book in another category not shown
     }
 
     @Test
     void testSearchByCategory_NotFound() {
+        // Should return warning for a non-existing category
         SearchActions.searchByCategory("History", hub);
         String output = outContent.toString();
-        assertTrue(output.contains("⚠ No books found."));
+        assertTrue(output.contains("⚠ No books found.")); // Warning displayed as expected
     }
 }

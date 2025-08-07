@@ -76,7 +76,7 @@ public class BookStore {
         return books;
     }
 
-    public static boolean existsByISBN(String isbn) {
+    public boolean existsByISBN(String isbn) {
         String isbnNorm = normalizeIsbn(isbn);
         return loadBooks().stream()
                 .anyMatch(book -> normalizeIsbn(book.getIsbn()).equalsIgnoreCase(isbnNorm));
@@ -84,7 +84,8 @@ public class BookStore {
 
     public static void saveBook(Book book) {
         ensureFileExists();
-        if (existsByISBN(book.getIsbn())) {
+        BookStore store = new BookStore();
+        if (store.existsByISBN(book.getIsbn())) {
             System.out.println("⚠ Book with this ISBN already exists. Not saving.");
             return;
         }

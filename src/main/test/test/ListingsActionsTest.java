@@ -85,6 +85,7 @@ public class ListingsActionsTest {
         System.setOut(new PrintStream(outContent));
     }
 
+    // Test that all books are displayed when the list is not empty
     @Test
     void listAllBooksShowsAllBooks() {
         ListingActions.listAllBooks(hub);
@@ -94,6 +95,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("Cooking Guide"));
     }
 
+    // Test that a proper message is shown when no books are available
     @Test
     void listAllBooksWhenNoBooksAvailable() {
         hub.booksList.clear();
@@ -102,6 +104,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("No books available."));
     }
 
+    // Test listing books issued to a student using a valid USN
     @Test
     void listBooksByUsnWithValidUsn() {
         Scanner mockScanner = new Scanner(hub.studentsList.get(0).getUsn() + "\n");
@@ -111,6 +114,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains(hub.studentsList.get(0).getName()));
     }
 
+    // Test listing books using an invalid USN (student doesn't exist)
     @Test
     void listBooksByUsnWithInvalidUsn() {
         Scanner mockScanner = new Scanner("invalid_usn\n");
@@ -119,6 +123,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("No books found for student with USN invalid_usn."));
     }
 
+    // Test listing books with an empty USN input
     @Test
     void listBooksByUsnWithEmptyUsn() {
         Scanner mockScanner = new Scanner("\n");
@@ -127,6 +132,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("No books found for student with USN ."));
     }
 
+    // Test listing issued books when no issues exist
     @Test
     void listAllIssuedBooksWhenNoIssuesExist() {
         hub.issuesList.clear();
@@ -135,6 +141,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("No books have been issued."));
     }
 
+    // Test that all issued books are listed when issues exist
     @Test
     void listAllIssuedBooksWhenIssuesExist() {
         ListingActions.listAllIssuedBooks(hub);
@@ -145,6 +152,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("Book ISBN"));
     }
 
+    // Test filtering books by a valid category
     @Test
     void listBooksByCategoryWithValidCategory() {
         Scanner mockScanner = new Scanner("Programming\n");
@@ -155,6 +163,7 @@ public class ListingsActionsTest {
         assertFalse(output.contains("Cooking Guide"));
     }
 
+    // Test filtering books by an invalid category
     @Test
     void listBooksByCategoryWithInvalidCategory() {
         Scanner mockScanner = new Scanner("Nonexistent\n");
@@ -163,6 +172,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("No books found in category 'Nonexistent'."));
     }
 
+    // Test filtering books with an empty category input
     @Test
     void listBooksByCategoryWithEmptyCategory() {
         Scanner mockScanner = new Scanner("\n");
@@ -171,6 +181,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("No books found in category ''."));
     }
 
+    // Test that the system reports all books have been issued at least once
     @Test
     void listBooksNeverIssuedWhenAllBooksIssued() {
         ListingActions.listBooksNeverIssued(hub);
@@ -178,6 +189,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("All books have been issued at least once."));
     }
 
+    // Test identifying books that were never issued
     @Test
     void listBooksNeverIssuedWhenSomeBooksNeverIssued() {
         Book newBook = new Book();
@@ -193,6 +205,7 @@ public class ListingsActionsTest {
         assertFalse(output.contains("All books have been issued at least once."));
     }
 
+    // Test listing students when no students are registered
     @Test
     void listAllStudentsWhenNoStudentsRegistered() {
         hub.studentsList.clear();
@@ -201,6 +214,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("No students registered."));
     }
 
+    // Test listing all valid students
     @Test
     void listAllStudentsWhenValidStudentsExist() {
         ListingActions.listAllStudents(hub);
@@ -210,6 +224,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains("julia"));
     }
 
+    // Test that students labeled as "Unknown" are excluded from listing
     @Test
     void listAllStudentsSkipsUnknownStudents() {
         Student unknown = new Student("Unknown");
@@ -219,81 +234,3 @@ public class ListingsActionsTest {
         assertFalse(output.contains("Unknown"));
     }
 }
-//package test;
-//
-//import org.YronJack.models.Book;
-//import org.YronJack.models.Author;
-//import org.YronJack.models.Hub;
-//import org.YronJack.utils.ListingActions;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.io.ByteArrayOutputStream;
-//import java.io.PrintStream;
-//import java.util.Arrays;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//class ListingActionsTest {
-//
-//    private Hub hub;
-//    private ByteArrayOutputStream outContent;
-//
-//    @BeforeEach
-//    void setUp() {
-//        hub = new Hub();
-//        // List with 2 books
-//        Book b1 = new Book();
-//        b1.setIsbn("111-AAA");
-//        b1.setTitle("Java Basics");
-//        b1.setCategory("Programming");
-//        b1.setQuantity(5);
-//        b1.setAuthor(new Author("John Doe"));
-//
-//        Book b2 = new Book();
-//        b2.setIsbn("222-BBB");
-//        b2.setTitle("Python Advanced");
-//        b2.setCategory("Programming");
-//        b2.setQuantity(3);
-//        b2.setAuthor(new Author("Jane Smith"));
-//
-//        hub.getBooksList().addAll(Arrays.asList(b1, b2));
-//
-//        outContent = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(outContent));
-//    }
-//
-//    @Test
-//    void testListAllBooks_WithBooks() {
-//        ListingActions.listAllBooks(hub);
-//        String output = outContent.toString();
-//        assertTrue(output.contains("Java Basics"));
-//        assertTrue(output.contains("Python Advanced"));
-//    }
-//
-//    @Test
-//    void testListAllBooks_EmptyList() {
-//        hub.getBooksList().clear();
-//        ListingActions.listAllBooks(hub);
-//        String output = outContent.toString();
-//        assertTrue(output.contains("No books available."));
-//    }
-//
-//    @Test
-//    void testListBooksByCategory_Found() {
-//        ListingActions.listBooksByCategory(
-//                new java.util.Scanner("Programming\n"), hub);
-//        String output = outContent.toString();
-//        assertTrue(output.contains("Java Basics"));
-//        assertTrue(output.contains("Python Advanced"));
-//    }
-//
-//    @Test
-//    void testListBooksByCategory_NotFound() {
-//        ListingActions.listBooksByCategory(
-//                new java.util.Scanner("History\n"), hub);
-//        String output = outContent.toString();
-//        assertTrue(output.contains("No books found in category"));
-//    }
-//}
-

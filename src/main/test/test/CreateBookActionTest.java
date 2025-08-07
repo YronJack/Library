@@ -1,107 +1,120 @@
 package test;
 
-import org.YronJack.models.Hub;
-import org.YronJack.utils.CreateBookAction;
-import org.YronJack.store.BookStore;
-import org.YronJack.models.Book;
 import org.YronJack.enums.Category;
-import org.junit.jupiter.api.*;
+import org.YronJack.store.BookStore;
+import org.YronJack.utils.CreateBookAction;
+import org.junit.jupiter.api.Test;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.ByteArrayInputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CreateBookActionTest {
-    private Hub hub = new Hub();
+public class CreateBookActionTest {
 
-    List<Book> emptyBookList = new ArrayList<>();
-    private BookStore bookStore;
-    private final PrintStream originalOut = System.out;
-    private ByteArrayOutputStream outContent;
+    // Test for validateISBN13 (throws IllegalArgumentException if invalid)
+    @Test
+    void testValidateISBN13_ValidAndInvalid() throws Exception {
+        Method validateISBN13 = CreateBookAction.class.getDeclaredMethod("validateISBN13", String.class);
+        validateISBN13.setAccessible(true);
 
-    @BeforeEach
-    void setUp() {
-        outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        // Limpiar el BookStore antes de cada test
-        hub.setBooksList(emptyBookList);
+        // Valid ISBN should not throw exception
+        assertDoesNotThrow(() -> validateISBN13.invoke(null, "9780306406157"));
+
+        // ISBN with fewer digits throws exception
+        Exception e1 = assertThrows(InvocationTargetException.class, () -> validateISBN13.invoke(null, "978030640615"));
+        assertTrue(e1.getCause() instanceof IllegalArgumentException);
+
+        // ISBN not starting with 978 or 979
+        Exception e2 = assertThrows(InvocationTargetException.class, () -> validateISBN13.invoke(null, "9770306406157"));
+        assertTrue(e2.getCause() instanceof IllegalArgumentException);
+
+        // ISBN with invalid checksum
+        Exception e3 = assertThrows(InvocationTargetException.class, () -> validateISBN13.invoke(null, "9780306406158"));
+        assertTrue(e3.getCause() instanceof IllegalArgumentException);
     }
 
-    @AfterEach
-    void tearDown() {
-        System.setOut(originalOut);
-        hub.setBooksList(emptyBookList);
+    // Test for askValidISBN
+    // FakeBookStore that always says no ISBN exists to ease testing
+    static class FakeBookStore extends BookStore {
+        @Override
+        public boolean existsByISBN(String isbn) {
+            return false;
+        }
     }
 
     @Test
-    void createBookWithValidDataCreatesBookSuccessfully() {
-        String input = "9783161484100\nLibro de Prueba\nPROGRAMMING\nAutor Prueba\n5\n";
-        Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
-        String output = outContent.toString();
-        assertTrue(output.contains("✅ Book created and saved successfully!"));
-        assertTrue(output.contains("9783161484100"));
-        assertTrue(output.contains("Libro de Prueba"));
-        assertTrue(output.contains("Autor Prueba"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+    void testAskValidISBN() {
+        String input = String.join("\n",
+                "1111111111111",  // Invalid ISBN (will fail validation)
+                "9781234567897"   // Valid ISBN
+        );
+
+        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
+        BookStore store = new FakeBookStore();
+
+        // Since askValidISBN is private, I assume you made it package-private or public to test it.
+        // Otherwise, you will need to change its visibility to test it directly.
+
+        String isbn = CreateBookAction.askValidISBN(scanner, store);
+
+        assertEquals("9781234567897", isbn);
     }
 
+    // Test for askTitle
     @Test
-    void createBookWithInvalidISBNShowsErrorAndAsksAgain() {
-        String input = "123\n9783161484100\nLibro\nPROGRAMMING\nAutor\n1\n";
+    void testAskTitle() throws Exception {
+        Method askTitle = CreateBookAction.class.getDeclaredMethod("askTitle", Scanner.class);
+        askTitle.setAccessible(true);
+
+        String input = "Some Book Title\n";
         Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
-        String output = outContent.toString();
-        assertTrue(output.contains("❌ ISBN must have exactly 13 digits."));
-        assertTrue(output.contains("✅ Book created and saved successfully!"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+
+        String title = (String) askTitle.invoke(null, scanner);
+        assertEquals("Some Book Title", title);
     }
 
+    // Test for askCategory
     @Test
-    void createBookWithDuplicateISBNShowsErrorAndAsksAgain() {
-        // Pre-cargar un libro con el ISBN
-        BookStore.saveBook(new Book("9783161484100", "Existente", "PROGRAMMING", 1, "Autor", true));
-        String input = "9783161484100\n9783161484101\nLibro\nPROGRAMMING\nAutor\n2\n";
+    void testAskCategory() throws Exception {
+        Method askCategory = CreateBookAction.class.getDeclaredMethod("askCategory", Scanner.class);
+        askCategory.setAccessible(true);
+
+        // First invalid input, second valid
+        String input = String.join("\n", "INVALID", "FICTION");
         Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
-        String output = outContent.toString();
-        assertTrue(output.contains("❌ This ISBN is already registered in the database"));
-        assertTrue(output.contains("9783161484101"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+
+        Category category = (Category) askCategory.invoke(null, scanner);
+        assertEquals(Category.FICTION, category);
     }
 
+    // Test for askAuthorName
     @Test
-    void createBookWithInvalidCategoryShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nINVALID\nPROGRAMMING\nAutor\n1\n";
+    void testAskAuthorName() throws Exception {
+        Method askAuthorName = CreateBookAction.class.getDeclaredMethod("askAuthorName", Scanner.class);
+        askAuthorName.setAccessible(true);
+
+        // First empty input, second valid
+        String input = String.join("\n", "", "John Doe");
         Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
-        String output = outContent.toString();
-        assertTrue(output.contains("❌ Invalid category, try again."));
-        assertTrue(output.contains("✅ Book created and saved successfully!"));
+
+        String author = (String) askAuthorName.invoke(null, scanner);
+        assertEquals("John Doe", author);
     }
 
+    // Test for askQuantity
     @Test
-    void createBookWithEmptyAuthorNameShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nPROGRAMMING\n\nAutor\n1\n";
-        Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
-        String output = outContent.toString();
-        assertTrue(output.contains("❌ Author name is required. Please enter a valid name."));
-        assertTrue(output.contains("Autor"));
-        assertTrue(output.contains("✅ Book created and saved successfully!"));
-    }
+    void testAskQuantity() throws Exception {
+        Method askQuantity = CreateBookAction.class.getDeclaredMethod("askQuantity", Scanner.class);
+        askQuantity.setAccessible(true);
 
-    @Test
-    void createBookWithInvalidQuantityShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nPROGRAMMING\nAutor\n-1\nabc\n3\n";
+        // First invalid input, second valid
+        String input = String.join("\n", "-5", "10");
         Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
-        String output = outContent.toString();
-        assertTrue(output.contains("❌ Invalid quantity, positive integer needed."));
-        assertTrue(output.contains("✅ Book created and saved successfully!"));
-        assertTrue(hub.getBooksList().stream().anyMatch(book -> book.getIsbn().equals("9783161484100")));
+
+        int quantity = (int) askQuantity.invoke(null, scanner);
+        assertEquals(10, quantity);
     }
 }

@@ -119,25 +119,27 @@ public class IssueActions {
     }
 
     private static void printIssueCreatedMessage(Issue issue) {
-        String top = "╔════════════╦═══════════════╦════════════════════╦════════════════════╦════════════════════╗";
-        String headerSep = "╠════════════╬═══════════════╬════════════════════╬════════════════════╬════════════════════╣";
-        String bottom = "╚════════════╩═══════════════╩════════════════════╩════════════════════╩════════════════════╝";
+        String top = "╔════════════╦═══════════════╦════════════════════╦════════════════════╦════════════════════╦════════════════════╗";
+        String headerSep = "╠════════════╬═══════════════╬════════════════════╬════════════════════╬════════════════════╬════════════════════╣";
+        String bottom = "╚════════════╩═══════════════╩════════════════════╩════════════════════╩════════════════════╩════════════════════╝";
 
         System.out.println();
         System.out.println("✅ Issue created successfully:");
         System.out.println(top);
-        System.out.printf("║ %-10s ║ %-13s ║ %-18s ║ %-18s ║ %-18s ║\n",
-                "Issue ID", "Student USN", "Student Name", "Book ISBN", "Return Date");
+        System.out.printf("║ %-10s ║ %-13s ║ %-18s ║ %-18s ║ %-18s ║ %-18s ║\n",
+                "Issue ID", "Student USN", "Student Name", "Book ISBN", "Book Title", "Return Date");
         System.out.println(headerSep);
-        System.out.printf("║ %-10d ║ %-13s ║ %-18s ║ %-18s ║ %-18s ║\n",
+        System.out.printf("║ %-10d ║ %-13s ║ %-18s ║ %-18s ║ %-18s ║ %-18s ║\n",
                 issue.getIssueId(),
                 issue.getIssueStudent().getUsn(),
                 issue.getIssueStudent().getName(),
                 issue.getIssueBook().getIsbn(),
+                issue.getIssueBook().getTitle(),
                 issue.getReturnDate().toString());
         System.out.println(bottom);
         System.out.println();
     }
+
 }
 
 

@@ -17,10 +17,10 @@ class BookStoreTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Cambiar el archivo CSV a uno de test
+        // Set the CSV file to a test-specific file
         BookStore.setFileNameForTests(TEST_FILE);
 
-        // Crear archivo test vacío con cabecera
+        // Create an empty test file with headers
         File testFile = new File(TEST_FILE);
         if (testFile.exists()) {
             testFile.delete();
@@ -36,7 +36,7 @@ class BookStoreTest {
 
     @AfterEach
     void tearDown() {
-        // Borrar archivo test
+        // Delete the test file after each test
         File testFile = new File(TEST_FILE);
         if (testFile.exists()) {
             testFile.delete();
@@ -45,12 +45,14 @@ class BookStoreTest {
 
     @Test
     void testLoadBooksEmptyFile() {
+        // The list should be empty when the file has only headers
         List<Book> books = BookStore.loadBooks();
         assertTrue(books.isEmpty(), "Books list should be empty if file is empty");
     }
 
     @Test
     void testSaveAndLoadBook() {
+        // Save a book and then verify it was correctly written and read back
         Book book = new Book("123-456", "Test Book", "Fiction", 5, "Author Name", false);
         BookStore.saveBook(book);
 
@@ -63,10 +65,13 @@ class BookStoreTest {
 
     @Test
     void testExistsByISBN() {
+        // Save a book and check if it can be found by its ISBN
         Book book = new Book("789-1011", "Another Book", "Non-Fiction", 3, "Author", false);
         BookStore.saveBook(book);
 
-        assertTrue(BookStore.existsByISBN("789-1011"));
-        assertFalse(BookStore.existsByISBN("000-0000"));
+        BookStore store = new BookStore();
+        assertTrue(store.existsByISBN("789-1011"), "Book should exist by its ISBN");
+        assertFalse(store.existsByISBN("000-0000"), "Non-existing ISBN should return false");
     }
 }
+
