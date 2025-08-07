@@ -5,7 +5,6 @@ A console-based Java application to help schools and organizations manage books 
 
 
 
-
 [![Java](https://img.shields.io/badge/Java-8%2B-blue)](https://www.java.com/)
 ![Last Commit](https://img.shields.io/github/last-commit/YronJack/Library)
 ![Issues](https://img.shields.io/github/issues/YronJack/Library)
