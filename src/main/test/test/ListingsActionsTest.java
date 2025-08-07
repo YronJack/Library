@@ -53,13 +53,13 @@ public class ListingsActionsTest {
         i1.setIssueBook(b1);
         i1.setIssueStudent(s1);
         i1.setIssueDate(LocalDate.now());
-        i1.setReturnDate(LocalDate.now());
+        i1.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i2 = new Issue();
         i2.setIssueBook(b2);
         i2.setIssueStudent(s2);
         i2.setIssueDate(LocalDate.now());
-        i2.setReturnDate(LocalDate.now());
+        i2.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i3 = new Issue();
         i3.setIssueBook(b3);
@@ -71,13 +71,13 @@ public class ListingsActionsTest {
         i4.setIssueBook(b1);
         i4.setIssueStudent(s1);
         i4.setIssueDate(LocalDate.now());
-        i4.setReturnDate(LocalDate.now());
+       i4.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i5 = new Issue();
         i5.setIssueBook(b2);
         i5.setIssueStudent(s1);
         i5.setIssueDate(LocalDate.now());
-        i5.setReturnDate(LocalDate.now());
+        i5.setReturnDate(LocalDate.now().plusDays(1));
 
         hub.issuesList = new ArrayList<>(Arrays.asList(i1, i2, i3, i4, i5));
 
@@ -222,7 +222,7 @@ public class ListingsActionsTest {
     @Test
     void listBooksReturnToday_showsBooksToReturnToday() {
 
-        Book book = new Book("1234567890123", "Libro Hoy", "PROGRAMMING", 1, "Autor", true);
+        Book book = new Book("1234567890123", "Libro Hoy", "other", 1, "Autor", true);
         Student student = new Student("Estudiante");
         Issue issue = new Issue(book, student, LocalDate.now().minusDays(7), LocalDate.now());
         hub.booksList.add(book);
@@ -239,7 +239,7 @@ public class ListingsActionsTest {
 
     @Test
     void listBooksReturnToday_showsNoBooksMessage() {
-        Book book = new Book("1234567890123", "Libro Hoy", "PROGRAMMING", 1, "Autor", true);
+        Book book = new Book("1234567890123", "Libro Hoy", "other", 1, "Autor", true);
         Student student = new Student("Estudiante");
         Issue issue = new Issue(book, student, LocalDate.now(), LocalDate.now().plusDays(7));
         hub.booksList.add(book);

@@ -23,8 +23,23 @@ class CreateBookActionTest {
         private final PrintStream originalOut = System.out;
         private ByteArrayOutputStream outContent;
 
+
     @BeforeEach
     void setUp() throws IOException {
+        // declaras el lector
+        // declaras los textos
+        // limpias y repites
+
+
+
+
+
+
+
+
+
+
+
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         testFile = File.createTempFile("books_test_", ".csv");
@@ -50,7 +65,7 @@ class CreateBookActionTest {
     @Test
     void createBookWithValidDataCreatesBookSuccessfully() {
 
-        String input = "9783161484100\nLibro de Prueba\nPROGRAMMING\nAutor Prueba\n5\n\n\n\n\n\n";
+        String input = "9783161484100\nLibro de Prueba\nother\nAutor Prueba\n5\n";
         Scanner mockScanner = new Scanner(input);
         CreateBookAction.createBook(mockScanner,hub);
         String output = outContent.toString();
@@ -63,9 +78,9 @@ class CreateBookActionTest {
 
     @Test
     void createBookWithInvalidISBNShowsErrorAndAsksAgain() {
-        String input = "123\n9783161484100\nLibro\nPROGRAMMING\nAutor\n1\n\n\n\n\n\n\n";
-        Scanner scanner = new Scanner(input);
-        CreateBookAction.createBook(scanner,hub);
+        String input = "123\n9783161484100\nLibro\nother\nAutor\n1\n\n\n\n\n\n\n";
+        Scanner lechuga = new Scanner(input);
+        CreateBookAction.createBook(lechuga,hub);
         String output = outContent.toString();
         assertTrue(output.contains("❌ ISBN must have exactly 13 digits."));
         assertTrue(output.contains("✅ Book created and saved successfully!"));
@@ -75,8 +90,8 @@ class CreateBookActionTest {
     @Test
     void createBookWithDuplicateISBNShowsErrorAndAsksAgain() {
         // Pre-cargar un libro con el ISBN
-        hub.getBooksList().add(new Book("9783161484100", "Existente", "PROGRAMMING", 1, "Autor", true));
-        String input = "9783161484100\n9783161484101\nLibro\nPROGRAMMING\nAutor\n2\n\n\n\n\n\n";
+        hub.getBooksList().add(new Book("9783161484100", "Existente", "other", 1, "Autor", true));
+        String input = "9783161484100\n9783161484101\nLibro\nother\nAutor\n2\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner, hub);
         String output = outContent.toString();
@@ -87,7 +102,7 @@ class CreateBookActionTest {
 
     @Test
     void createBookWithInvalidCategoryShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nINVALID\nPROGRAMMING\nAutor\n1\n\n\n\n\n\n";
+        String input = "9783161484100\nLibro\nINVALID\nother\nAutor\n1\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner,hub);
         String output = outContent.toString();
@@ -97,7 +112,7 @@ class CreateBookActionTest {
 
     @Test
     void createBookWithEmptyAuthorNameShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nPROGRAMMING\n\nAutor\n1\n\n\n\n\n\n";
+        String input = "9783161484100\nLibro\nother\n\nAutor\n1\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner,hub);
         String output = outContent.toString();
@@ -108,7 +123,7 @@ class CreateBookActionTest {
 
     @Test
     void createBookWithInvalidQuantityShowsErrorAndAsksAgain() {
-        String input = "9783161484100\nLibro\nPROGRAMMING\nAutor\n-1\nabc\n3\n\n\n\n\n\n";
+        String input = "9783161484100\nLibro\nother\nAutor\n-1\nabc\n3\n\n\n\n\n\n";
         Scanner scanner = new Scanner(input);
         CreateBookAction.createBook(scanner,hub);
         String output = outContent.toString();
