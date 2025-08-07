@@ -1,4 +1,4 @@
-```markdown
+
 # Library Management System
 
 A Library Management System to help manage and acquire data about books used by students. This project is built in Java and provides a console-based application for managing books, students, and book issues.
@@ -96,4 +96,4 @@ This project is currently unlicensed.
 ---
 
 *Library Management System for students and book tracking — built in Java.*
-```
+
