@@ -1,43 +1,55 @@
 package test;
 
 import org.YronJack.enums.Category;
+import org.YronJack.models.Book;
+import org.YronJack.models.Hub;
 import org.YronJack.store.BookStore;
 import org.YronJack.utils.CreateBookAction;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateBookActionTest {
 
     private static final String TEST_BOOKS_FILE = "data/test_books.csv";
+    private Hub hub = new Hub();
+    private File testFile; // <-- Añade esta línea
+    List<Book> emptyBookList = new ArrayList<>();
+    private BookStore bookStore;
+    private final PrintStream originalOut = System.out;
+    private ByteArrayOutputStream outContent;
 
     @BeforeEach
-    void setUp() {
-        // Usar archivo de prueba
-        BookStore.setFileNameForTests(TEST_BOOKS_FILE);
+    void setUp() throws IOException {
+        outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        testFile = File.createTempFile("books_test_", ".csv");
+        BookStore.setFileNameForTests(testFile.getAbsolutePath());
 
-        // Borrar el archivo si ya existe
-        File file = new File(TEST_BOOKS_FILE);
-        if (file.exists()) file.delete();
+        try (PrintWriter writer = new PrintWriter(new FileWriter(testFile))) {
+            writer.println("isbn,title,category,author,quantity");
+        }
+
+        Hub.booksList.clear();
+        hub.setBooksList(Hub.booksList);
     }
 
     @AfterEach
     void tearDown() {
-        // Eliminar el archivo de prueba tras cada test
-        File file = new File(TEST_BOOKS_FILE);
-        if (file.exists()) file.delete();
-
-        // Restaurar el archivo real (opcional)
-        BookStore.setFileNameForTests("data/books.csv");
+        System.setOut(originalOut);
+        hub.setBooksList(new ArrayList<>());
+        if (testFile != null && testFile.exists()) {
+            testFile.delete();
+        }
     }
 
     // Test for validateISBN13 (throws IllegalArgumentException if invalid)
