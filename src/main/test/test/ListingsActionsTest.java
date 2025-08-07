@@ -234,8 +234,7 @@ public class ListingsActionsTest {
         assertFalse(output.contains("Unknown"));
     }
 
-
-
+    // Tests that books with a return date of today are correctly listed
     @Test
     void listBooksReturnToday_showsBooksToReturnToday() {
 
@@ -254,7 +253,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains(LocalDate.now().toString()));
     }
 
-
+    // Tests that a message is shown when no books are due for return today
     @Test
     void listBooksReturnToday_showsNoBooksMessage() {
         Book book = new Book("1234567890123", "Libro Hoy", "other", 1, "Autor", true);

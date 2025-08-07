@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IssueActionsTest {
+
     private Hub hub;
     private ByteArrayOutputStream outContent;
 
@@ -52,16 +53,16 @@ class IssueActionsTest {
         System.setOut(new PrintStream(outContent));
     }
 
+    // Tests issuing a book to an existing student with valid data
     @Test
     void issueBookToStudentWithValidData() {
         Scanner mockScanner = new Scanner("paco\n111-AAA\n");
         IssueActions.issueBookToStudent(mockScanner, hub);
         String output = outContent.toString();
 
-        System.out.println("Salida capturada:\n" + output); // <- Agrega esta línea para ver la salida real en consola
+        System.out.println("Salida capturada:\n" + output);
 
         assertTrue(output.contains("✅ Issue created successfully:"), "No se encontró mensaje de issue creado");
-        // Ajusta o comenta esta línea si no se imprime el título:
         assertTrue(output.contains("Java Basics"), "No se encontró el título del libro en la salida");
         assertTrue(output.contains("paco"), "No se encontró el nombre del estudiante en la salida");
         assertEquals(4, hub.booksList.get(0).getQuantity(), "Cantidad del libro no decrementada");
@@ -70,6 +71,7 @@ class IssueActionsTest {
         mockScanner.close();
     }
 
+    // Tests attempting to issue a book that does not exist in the system
     @Test
     void issueBookToStudentWithNonExistentBook() {
         Scanner mockScanner = new Scanner("paco\n999-ZZZ\n");
@@ -82,9 +84,10 @@ class IssueActionsTest {
         mockScanner.close();
     }
 
+    // Tests trying to issue a book that has zero available copies
     @Test
     void issueBookToStudentWithNoAvailableCopies() {
-        hub.booksList.get(0).setQuantity(0);
+        hub.booksList.get(0).setQuantity(0); // Set book quantity to 0
         Scanner mockScanner = new Scanner("paco\n111-AAA\n");
         IssueActions.issueBookToStudent(mockScanner, hub);
         String output = outContent.toString();
@@ -95,6 +98,7 @@ class IssueActionsTest {
         mockScanner.close();
     }
 
+    // Tests issuing a book to a new student who is not already in the system
     @Test
     void issueBookToStudentWithNewStudent() {
         Scanner mockScanner = new Scanner("newStudent\n111-AAA\n");
@@ -111,6 +115,7 @@ class IssueActionsTest {
         mockScanner.close();
     }
 
+    // Tests issuing a book when the student's name input is empty
     @Test
     void issueBookToStudentWithEmptyName() {
         Scanner mockScanner = new Scanner("\n111-AAA\n");
@@ -125,6 +130,7 @@ class IssueActionsTest {
         mockScanner.close();
     }
 
+    // Tests issuing a book when the ISBN input is empty
     @Test
     void issueBookToStudentWithEmptyIsbn() {
         Scanner mockScanner = new Scanner("paco\n\n");
