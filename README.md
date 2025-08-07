@@ -15,12 +15,14 @@ A console-based Java application to help schools and organizations manage books 
 ## Table of Contents
 
 - [Features](#features)
-
+- [Project Structure](#project-structure)
+- [Data Diagram](#data-diagram)
+- [Data Model](#data-model)
 - [Usage Examples](#usage-examples)
 - [Data Formats](#data-formats)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
 - [Getting Started](#getting-started)
+- [Contributing](#contributing)
+
 
 
 ---
@@ -68,6 +70,9 @@ Handles invalid inputs gracefully with user-friendly feedback messages.
 
 Import/Export library data.
 Scalable design to introduce more features.
+
+---
+
 ## Project Structure
 
 The project follows a standard Maven directory layout:
@@ -122,7 +127,7 @@ src/
 - **enums/**: Contains enumerations, e.g., `Category`.
 - **test/**: Contains unit tests for main components.
 
-
+---
 
 ## Data Diagram
 
@@ -137,6 +142,7 @@ src/
 ```
 [Author]---<writes>---[Book]---<issued as>---[Issue]---<borrowed by>---[Student]
 ```
+---
 
 ## Data Models
 
@@ -144,6 +150,9 @@ src/
 - **Author**: Contains name and identifier.
 - **Student**: Contains name, student ID, and contact information.
 - **Issue**: Contains references to `Book` and `Student`, and issue/return dates.
+
+
+---
 
 ## Usage Examples
 
