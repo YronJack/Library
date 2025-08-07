@@ -15,12 +15,13 @@ A console-based Java application to help schools and organizations manage books 
 ## Table of Contents
 
 - [Features](#features)
-
+- [Project Structure](#project-structure)
+- [Data Diagram](#data-diagram)
+- [Data Models](#data-models)
 - [Usage Examples](#usage-examples)
 - [Data Formats](#data-formats)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
 - [Getting Started](#getting-started)
+- [Contributing](#contributing)
 
 
 ---
@@ -102,7 +103,7 @@ src/
             IssueActions.java
             ListingActions.java
             SearchActions.java
-  test/
+test/
     java/
       test/
         BookStoreTest.java
