@@ -237,6 +237,7 @@ public class ListingsActionsTest {
         assertTrue(output.contains(LocalDate.now().toString()));
     }
 
+
     @Test
     void listBooksReturnToday_showsNoBooksMessage() {
         Book book = new Book("1234567890123", "Libro Hoy", "other", 1, "Autor", true);
