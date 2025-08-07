@@ -3,7 +3,12 @@
 
 A console-based Java application to help schools and organizations manage books and student borrowing efficiently. This project solves the problem of manual book tracking, allowing you to add, issue, search, and report on books and students, with persistent data storage in CSV files.
 
-![Console Demo Screenshot](#) <!-- Replace # with actual screenshot link if available -->
+
+
+
+[![Java](https://img.shields.io/badge/Java-8%2B-blue)](https://www.java.com/)
+![Last Commit](https://img.shields.io/github/last-commit/YronJack/Library)
+![Issues](https://img.shields.io/github/issues/YronJack/Library)
 
 ---
 
@@ -29,13 +34,6 @@ A console-based Java application to help schools and organizations manage books 
 - **Issue Management:** Track which student has borrowed which book, issue dates, and return dates.
 - **Import/Export:** Load and save library data to CSV files.
 - **Student Management:** Manage student records who borrow books.
-
----
-
-## Demo
-
-<!-- Add a screenshot or animated gif here -->
-![Example Main Menu](#)
 
 ---
 
@@ -119,11 +117,23 @@ StudentID,ISBN,IssueDate,ReturnDate
 
 ## Project Structure
 
-- `src/main/java/org/YronJack/` - Main Java source code.
-  - `models/` - Core data models: Book, Student, Issue, Author, Hub.
-  - `menus/` - Console menu UI logic.
-  - `store/` - Data persistence (loading/saving).
-  - `utils/` - Helper classes for listings/actions.
+```plaintext
+src/                # Java source code
+  Main.java         # Main entry point
+  Book.java         # Book model
+  Student.java      # Student model
+  Issue.java        # Issue model
+  ...               # Other classes
+
+data/               # CSV data files
+  books.csv
+  students.csv
+  issues.csv
+
+assets/screenshots/ # Screenshots for documentation
+
+bin/                # Compiled .class files (ignored in git)
+```
 
 ---
 
@@ -139,18 +149,9 @@ Contributions are welcome! Please [open an issue](https://github.com/YronJack/Li
 
 ---
 
-## License
 
-This project is currently unlicensed. If you wish to use or contribute, please contact the author for permissions or check back for updates.
-
----
-
-## Contact
-
-For questions, suggestions, or support, please open an issue or contact [YronJack](https://github.com/YronJack).
-
----
 
 *Library Management System for students and book tracking — built in Java.*
+
 
 
