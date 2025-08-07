@@ -9,10 +9,36 @@ import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateBookActionTest {
+
+    private static final String TEST_BOOKS_FILE = "data/test_books.csv";
+
+    @BeforeEach
+    void setUp() {
+        // Usar archivo de prueba
+        BookStore.setFileNameForTests(TEST_BOOKS_FILE);
+
+        // Borrar el archivo si ya existe
+        File file = new File(TEST_BOOKS_FILE);
+        if (file.exists()) file.delete();
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Eliminar el archivo de prueba tras cada test
+        File file = new File(TEST_BOOKS_FILE);
+        if (file.exists()) file.delete();
+
+        // Restaurar el archivo real (opcional)
+        BookStore.setFileNameForTests("data/books.csv");
+    }
 
     // Test for validateISBN13 (throws IllegalArgumentException if invalid)
     @Test

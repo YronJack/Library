@@ -8,7 +8,7 @@ import java.util.*;
 public class BookStore {
 
     private static final String FILE_NAME = "data/books.csv";
-    private static String fileName = FILE_NAME;  // variable mutable para el nombre de archivo
+    private static String fileName = FILE_NAME;
 
     public BookStore() {}
 
