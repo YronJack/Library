@@ -106,9 +106,13 @@ src/
     java/
       test/
         BookStoreTest.java
+        CreateBookActionsTest.java
+        IssueActionsTest.java
         IssueStoreTest.java
+        ListingActions.java
         SearchActionsTest.java
         StudentStoreTest.java
+        
 ```
 
 - **models/**: Contains core data models such as `Book`, `Author`, `Student`, `Issue`, and `Hub`.
