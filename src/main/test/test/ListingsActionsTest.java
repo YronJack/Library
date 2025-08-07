@@ -53,31 +53,31 @@ public class ListingsActionsTest {
         i1.setIssueBook(b1);
         i1.setIssueStudent(s1);
         i1.setIssueDate(LocalDate.now());
-        i1.setReturnDate(LocalDate.now());
+        i1.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i2 = new Issue();
         i2.setIssueBook(b2);
         i2.setIssueStudent(s2);
         i2.setIssueDate(LocalDate.now());
-        i2.setReturnDate(LocalDate.now());
+        i2.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i3 = new Issue();
         i3.setIssueBook(b3);
         i3.setIssueStudent(s3);
         i3.setIssueDate(LocalDate.now());
-        i3.setReturnDate(LocalDate.now());
+        i3.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i4 = new Issue();
         i4.setIssueBook(b1);
         i4.setIssueStudent(s1);
         i4.setIssueDate(LocalDate.now());
-        i4.setReturnDate(LocalDate.now());
+        i4.setReturnDate(LocalDate.now().plusDays(1));
 
         Issue i5 = new Issue();
         i5.setIssueBook(b2);
         i5.setIssueStudent(s1);
         i5.setIssueDate(LocalDate.now());
-        i5.setReturnDate(LocalDate.now());
+        i5.setReturnDate(LocalDate.now().plusDays(1));
 
         hub.issuesList = new ArrayList<>(Arrays.asList(i1, i2, i3, i4, i5));
 
