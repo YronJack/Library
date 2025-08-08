@@ -248,6 +248,7 @@ Contributions are welcome! Please [open an issue](https://github.com/YronJack/Li
 
 ---
 
+Project presentation: https://www.canva.com/design/DAGvUIJ3WhI/oOEITR1J3vOMYnICFHQuGQ/edit?utm_content=DAGvUIJ3WhI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton 
 
 
 *Library Management System for students and book tracking — built in Java.*
